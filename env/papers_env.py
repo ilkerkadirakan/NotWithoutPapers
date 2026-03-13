@@ -58,6 +58,8 @@ class PapersPleaseEnv(gym.Env):
         time_budget: int = 60,
         fraud_rate_range: Tuple[float, float] = (0.15, 0.35),
         mid_day_update_prob: float = 0.6,
+        inspect_error_prob: float = 0.03,
+        inspect_miss_prob: float = 0.05,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -71,11 +73,19 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("fraud_rate_range must satisfy 0.0 <= min <= max <= 1.0")
         if not (0.0 <= float(mid_day_update_prob) <= 1.0):
             raise ValueError("mid_day_update_prob must be in [0.0, 1.0]")
+        if not (0.0 <= float(inspect_error_prob) <= 1.0):
+            raise ValueError("inspect_error_prob must be in [0.0, 1.0]")
+        if not (0.0 <= float(inspect_miss_prob) <= 1.0):
+            raise ValueError("inspect_miss_prob must be in [0.0, 1.0]")
+        if float(inspect_error_prob) + float(inspect_miss_prob) > 1.0:
+            raise ValueError("inspect_error_prob + inspect_miss_prob must be <= 1.0")
 
         self.day_len = int(day_len)
         self.time_budget = int(time_budget)
         self.fraud_rate_range = fraud_rate_range
         self.mid_day_update_prob = float(mid_day_update_prob)
+        self.inspect_error_prob = float(inspect_error_prob)
+        self.inspect_miss_prob = float(inspect_miss_prob)
         self.debug = bool(debug)
         self._rng = random.Random(seed)
 
@@ -105,6 +115,8 @@ class PapersPleaseEnv(gym.Env):
             "false_accept": 0,
             "false_reject": 0,
             "inspects": 0,
+            "inspect_noise_error": 0,
+            "inspect_noise_miss": 0,
         }
 
     def _reset_reveals(self) -> None:
@@ -196,6 +208,20 @@ class PapersPleaseEnv(gym.Env):
         self.last_rule_update = event
         return event
 
+    def _apply_inspect_noise(self, true_value: int) -> int:
+        """
+        Return noisy inspect output:
+        -1 => missing/unknown, 0/1 => observed boolean.
+        """
+        r = self._rng.random()
+        if r < self.inspect_miss_prob:
+            self.stats["inspect_noise_miss"] += 1
+            return -1
+        if r < (self.inspect_miss_prob + self.inspect_error_prob):
+            self.stats["inspect_noise_error"] += 1
+            return 1 - int(true_value)
+        return int(true_value)
+
     def reset(self, *, seed: Optional[int] = None, options: Optional[dict] = None):
         """Start a new episode (workday) with deterministic seed support."""
         super().reset(seed=seed)
@@ -251,6 +277,14 @@ class PapersPleaseEnv(gym.Env):
         def reveal(field: str, value: int) -> None:
             self.revealed[field] = int(value)
 
+        def inspect(field: str, true_value: int) -> None:
+            nonlocal reward
+            observed = self._apply_inspect_noise(int(true_value))
+            reveal(field, observed)
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
         if action in (ACTION_APPROVE, ACTION_DENY):
             legal = oracle_is_legal(self.rules, app)
             decided_approve = action == ACTION_APPROVE
@@ -277,64 +311,34 @@ class PapersPleaseEnv(gym.Env):
                 terminated = True
 
         elif action == ACTION_INSPECT_COUNTRY_ALLOWED:
-            reveal("country_allowed", int(self.rules.allowed_countries_mask[app.country_idx] == 1))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("country_allowed", int(self.rules.allowed_countries_mask[app.country_idx] == 1))
 
         elif action == ACTION_INSPECT_HAS_PERMIT:
-            reveal("has_permit", int(app.has_permit))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("has_permit", int(app.has_permit))
 
         elif action == ACTION_INSPECT_EXPIRY_VALID:
-            reveal("expiry_valid", int(app.expiry_valid))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("expiry_valid", int(app.expiry_valid))
 
         elif action == ACTION_INSPECT_NAME_MATCH:
-            reveal("name_match", int(app.name_match))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("name_match", int(app.name_match))
 
         elif action == ACTION_INSPECT_HAS_ID_CARD:
-            reveal("has_id_card", int(app.has_id_card))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("has_id_card", int(app.has_id_card))
 
         elif action == ACTION_INSPECT_IS_WORKER:
-            reveal("is_worker", int(app.is_worker))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("is_worker", int(app.is_worker))
 
         elif action == ACTION_INSPECT_HAS_WORK_PASS:
-            reveal("has_work_pass", int(app.has_work_pass))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("has_work_pass", int(app.has_work_pass))
 
         elif action == ACTION_INSPECT_PURPOSE_MATCH:
-            reveal("purpose_match", int(app.purpose_match))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("purpose_match", int(app.purpose_match))
 
         elif action == ACTION_INSPECT_SEAL_VALID:
-            reveal("seal_valid", int(app.seal_valid))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("seal_valid", int(app.seal_valid))
 
         elif action == ACTION_INSPECT_BIOMETRIC_MATCH:
-            reveal("biometric_match", int(app.biometric_match))
-            reward += self.c_inspect
-            self.time_left -= 1
-            self.stats["inspects"] += 1
+            inspect("biometric_match", int(app.biometric_match))
 
         else:
             raise ValueError(f"Unknown action: {action}")

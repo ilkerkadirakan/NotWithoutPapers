@@ -23,6 +23,7 @@ Core problem characteristics:
 - Applicants are processed sequentially
 - The agent has a limited inspection time budget
 - Optional mid-day rule update can change policy constraints once during an episode
+- Inspect actions can return noisy observations (missing/incorrect reveal)
 
 ### Observation Model
 
@@ -149,6 +150,7 @@ Extension priority rule:
 
 1. keep minimal environment stable
 2. then increase complexity
+
 
 
 
