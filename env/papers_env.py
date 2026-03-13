@@ -2,6 +2,7 @@ from __future__ import annotations
 
 """Gymnasium environment implementation for the Papers Please RL task."""
 
+import math
 import random
 from typing import Dict, List, Optional, Tuple
 
@@ -60,6 +61,8 @@ class PapersPleaseEnv(gym.Env):
         mid_day_update_prob: float = 0.6,
         inspect_error_prob: float = 0.0,
         inspect_miss_prob: float = 0.0,
+        decision_coverage_target: float = 0.8,
+        coverage_shortfall_penalty: float = -20.0,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -79,6 +82,10 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("inspect_miss_prob must be in [0.0, 1.0]")
         if float(inspect_error_prob) + float(inspect_miss_prob) > 1.0:
             raise ValueError("inspect_error_prob + inspect_miss_prob must be <= 1.0")
+        if not (0.0 <= float(decision_coverage_target) <= 1.0):
+            raise ValueError("decision_coverage_target must be in [0.0, 1.0]")
+        if float(coverage_shortfall_penalty) > 0.0:
+            raise ValueError("coverage_shortfall_penalty must be <= 0.0")
 
         self.day_len = int(day_len)
         self.time_budget = int(time_budget)
@@ -86,6 +93,8 @@ class PapersPleaseEnv(gym.Env):
         self.mid_day_update_prob = float(mid_day_update_prob)
         self.inspect_error_prob = float(inspect_error_prob)
         self.inspect_miss_prob = float(inspect_miss_prob)
+        self.decision_coverage_target = float(decision_coverage_target)
+        self.coverage_shortfall_penalty = float(coverage_shortfall_penalty)
         self.debug = bool(debug)
         self._rng = random.Random(seed)
 
@@ -104,9 +113,9 @@ class PapersPleaseEnv(gym.Env):
         self.mid_day_update_idx: int = 0
         self.last_rule_update: Optional[str] = None
 
-        self.r_correct = 4.0
+        self.r_correct = 6.0
         self.p_false_accept = -15.0
-        self.p_false_reject = -8.0
+        self.p_false_reject = -15.0
         self.c_inspect = -0.1
         # Penalize unresolved applicants at time-out to prevent inspect-only local optimum.
         self.p_undecided = 0.0
@@ -120,6 +129,7 @@ class PapersPleaseEnv(gym.Env):
             "inspect_noise_error": 0,
             "inspect_noise_miss": 0,
             "undecided": 0,
+            "coverage_shortfall": 0,
         }
 
     def _reset_reveals(self) -> None:
@@ -269,9 +279,19 @@ class PapersPleaseEnv(gym.Env):
                 self.stats["undecided"] += int(remaining)
                 reward += self.p_undecided * float(remaining)
 
+        def apply_coverage_penalty() -> None:
+            nonlocal reward
+            decisions = int(self.stats["approves"]) + int(self.stats["denies"])
+            target = int(math.ceil(len(self.queue) * self.decision_coverage_target))
+            shortfall = max(0, target - decisions)
+            if shortfall > 0:
+                self.stats["coverage_shortfall"] += int(shortfall)
+                reward += self.coverage_shortfall_penalty * float(shortfall)
+
         if self.time_left <= 0:
             truncated = True
             apply_undecided_penalty()
+            apply_coverage_penalty()
             info["episode_stats"] = self.stats.copy()
             obs = self._terminal_obs()
             info.update({"time_left": self.time_left, "idx": self.idx})
@@ -359,6 +379,7 @@ class PapersPleaseEnv(gym.Env):
             apply_undecided_penalty()
 
         if terminated or truncated:
+            apply_coverage_penalty()
             info["episode_stats"] = self.stats.copy()
 
         obs = self._terminal_obs() if (terminated or truncated) else self._get_obs()
@@ -380,4 +401,3 @@ class PapersPleaseEnv(gym.Env):
             f"work_pass_required={self.rules.work_pass_required}"
         )
         print(f"Applicant country={COUNTRIES[app.country_idx]} | revealed={self.revealed}")
-
