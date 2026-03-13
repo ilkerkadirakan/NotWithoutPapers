@@ -58,8 +58,8 @@ class PapersPleaseEnv(gym.Env):
         time_budget: int = 60,
         fraud_rate_range: Tuple[float, float] = (0.15, 0.35),
         mid_day_update_prob: float = 0.6,
-        inspect_error_prob: float = 0.03,
-        inspect_miss_prob: float = 0.05,
+        inspect_error_prob: float = 0.0,
+        inspect_miss_prob: float = 0.0,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -109,7 +109,7 @@ class PapersPleaseEnv(gym.Env):
         self.p_false_reject = -8.0
         self.c_inspect = -0.1
         # Penalize unresolved applicants at time-out to prevent inspect-only local optimum.
-        self.p_undecided = -15.0
+        self.p_undecided = 0.0
 
         self.stats = {
             "approves": 0,
@@ -380,3 +380,4 @@ class PapersPleaseEnv(gym.Env):
             f"work_pass_required={self.rules.work_pass_required}"
         )
         print(f"Applicant country={COUNTRIES[app.country_idx]} | revealed={self.revealed}")
+
