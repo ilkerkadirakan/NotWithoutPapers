@@ -14,7 +14,7 @@ Each episode is one workday:
 - Applicants are processed in a queue.
 - Document fields start hidden.
 - A mid-day rule update may occur once and change active constraints
-- Inspect actions can be noisy (missing or flipped reveal)
+- Inspect actions can be noisy (missing or flipped reveal)`r`n- Time-out now penalizes unresolved applicants (undecided penalty)
 - The agent can inspect fields (costs time + small penalty).
 - The agent decides `APPROVE` or `DENY`.
 
@@ -134,6 +134,7 @@ PowerShell scripts in `scripts/` are convenience wrappers for Windows, not requi
 - Modularized architecture (`env/train/eval/tests/scripts`) is in place.
 - Determinism and contract checks exist in tests.
 - End-to-end train/eval flow is runnable from `main.py`.
+
 
 
 

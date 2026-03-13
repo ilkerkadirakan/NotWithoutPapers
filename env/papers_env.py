@@ -108,6 +108,8 @@ class PapersPleaseEnv(gym.Env):
         self.p_false_accept = -15.0
         self.p_false_reject = -8.0
         self.c_inspect = -0.1
+        # Penalize unresolved applicants at time-out to prevent inspect-only local optimum.
+        self.p_undecided = -15.0
 
         self.stats = {
             "approves": 0,
@@ -117,6 +119,7 @@ class PapersPleaseEnv(gym.Env):
             "inspects": 0,
             "inspect_noise_error": 0,
             "inspect_noise_miss": 0,
+            "undecided": 0,
         }
 
     def _reset_reveals(self) -> None:
@@ -259,12 +262,20 @@ class PapersPleaseEnv(gym.Env):
         reward = 0.0
         info: Dict[str, object] = {}
 
+        def apply_undecided_penalty() -> None:
+            nonlocal reward
+            remaining = max(0, len(self.queue) - self.idx)
+            if remaining > 0:
+                self.stats["undecided"] += int(remaining)
+                reward += self.p_undecided * float(remaining)
+
         if self.time_left <= 0:
             truncated = True
+            apply_undecided_penalty()
             info["episode_stats"] = self.stats.copy()
             obs = self._terminal_obs()
             info.update({"time_left": self.time_left, "idx": self.idx})
-            return obs, 0.0, terminated, truncated, info
+            return obs, float(reward), terminated, truncated, info
 
         update_event = self._maybe_apply_mid_day_rule_update()
         if update_event is not None:
@@ -345,6 +356,7 @@ class PapersPleaseEnv(gym.Env):
 
         if (not terminated) and self.time_left <= 0:
             truncated = True
+            apply_undecided_penalty()
 
         if terminated or truncated:
             info["episode_stats"] = self.stats.copy()

@@ -23,7 +23,7 @@ Core problem characteristics:
 - Applicants are processed sequentially
 - The agent has a limited inspection time budget
 - Optional mid-day rule update can change policy constraints once during an episode
-- Inspect actions can return noisy observations (missing/incorrect reveal)
+- Inspect actions can return noisy observations (missing/incorrect reveal)`r`n- Time-out applies unresolved-applicant penalty to avoid inspect-only loops
 
 ### Observation Model
 
@@ -150,6 +150,7 @@ Extension priority rule:
 
 1. keep minimal environment stable
 2. then increase complexity
+
 
 
 
