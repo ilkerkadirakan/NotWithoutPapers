@@ -26,6 +26,7 @@ FIELDS = [
     "has_work_pass",
     "purpose_match",
     "seal_valid",
+    "biometric_match",
 ]
 
 # Action contract (do not reorder existing IDs)
@@ -40,5 +41,6 @@ ACTION_INSPECT_IS_WORKER = 7
 ACTION_INSPECT_HAS_WORK_PASS = 8
 ACTION_INSPECT_PURPOSE_MATCH = 9
 ACTION_INSPECT_SEAL_VALID = 10
+ACTION_INSPECT_BIOMETRIC_MATCH = 11
 
-N_ACTIONS = 11
+N_ACTIONS = 12

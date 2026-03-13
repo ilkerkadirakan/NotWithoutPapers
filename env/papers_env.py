@@ -12,6 +12,7 @@ from gymnasium import spaces
 from .constants import (
     ACTION_APPROVE,
     ACTION_DENY,
+    ACTION_INSPECT_BIOMETRIC_MATCH,
     ACTION_INSPECT_COUNTRY_ALLOWED,
     ACTION_INSPECT_EXPIRY_VALID,
     ACTION_INSPECT_HAS_ID_CARD,
@@ -46,6 +47,7 @@ class PapersPleaseEnv(gym.Env):
       8 INSPECT_HAS_WORK_PASS
       9 INSPECT_PURPOSE_MATCH
      10 INSPECT_SEAL_VALID
+     11 INSPECT_BIOMETRIC_MATCH
     """
 
     metadata = {"render_modes": ["human"]}
@@ -324,6 +326,12 @@ class PapersPleaseEnv(gym.Env):
 
         elif action == ACTION_INSPECT_SEAL_VALID:
             reveal("seal_valid", int(app.seal_valid))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
+        elif action == ACTION_INSPECT_BIOMETRIC_MATCH:
+            reveal("biometric_match", int(app.biometric_match))
             reward += self.c_inspect
             self.time_left -= 1
             self.stats["inspects"] += 1

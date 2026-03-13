@@ -47,6 +47,7 @@ def sample_applicant(rng: random.Random, rules: Rules, fraud_rate: float) -> App
         has_work_pass=has_work_pass,
         purpose_match=1,
         seal_valid=1,
+        biometric_match=1,
     )
 
     if rng.random() < fraud_rate:
@@ -60,6 +61,9 @@ def sample_applicant(rng: random.Random, rules: Rules, fraud_rate: float) -> App
                 "missing_work_pass",
                 "purpose_mismatch",
                 "fake_seal",
+                "forged_permit_bundle",
+                "stolen_identity",
+                "inconsistent_worker_bundle",
             ]
         )
 
@@ -93,6 +97,26 @@ def sample_applicant(rng: random.Random, rules: Rules, fraud_rate: float) -> App
             app.has_permit = 1
             app.seal_valid = 0
 
+        elif fraud_type == "forged_permit_bundle":
+            # Strong forged permit signature.
+            app.has_permit = 1
+            app.seal_valid = 0
+            app.name_match = 0
+            app.expiry_valid = rng.choice([0, 1])
+
+        elif fraud_type == "stolen_identity":
+            # Passport/permit can appear coherent, but biometric check fails.
+            app.biometric_match = 0
+            app.has_permit = 1
+            app.name_match = 1
+            app.seal_valid = 1
+
+        elif fraud_type == "inconsistent_worker_bundle":
+            # Claims worker but document set/purpose conflicts.
+            app.is_worker = 1
+            app.has_work_pass = 0
+            app.purpose_match = 0
+
     return app
 
 
@@ -114,7 +138,7 @@ def build_queue_with_deny_band(
     while deny_needed < target_min:
         i = rng.randrange(len(queue))
         if oracle_is_legal(rules, queue[i]):
-            queue[i].purpose_match = 0
+            queue[i].biometric_match = 0
             deny_needed += 1
 
     while deny_needed > target_max:
@@ -125,6 +149,7 @@ def build_queue_with_deny_band(
             a.name_match = 1
             a.seal_valid = 1
             a.purpose_match = 1
+            a.biometric_match = 1
             a.has_permit = 1
             a.has_id_card = 1
             a.has_work_pass = 1

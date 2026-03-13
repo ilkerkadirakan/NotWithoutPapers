@@ -87,7 +87,7 @@ Action IDs (do not reorder existing IDs):
 - `7`: INSPECT_IS_WORKER
 - `8`: INSPECT_HAS_WORK_PASS
 - `9`: INSPECT_PURPOSE_MATCH
-- `10`: INSPECT_SEAL_VALID
+- `10`: INSPECT_SEAL_VALID`r`n- `11`: INSPECT_BIOMETRIC_MATCH
 
 Observation vector contains:
 
@@ -133,5 +133,6 @@ PowerShell scripts in `scripts/` are convenience wrappers for Windows, not requi
 - Modularized architecture (`env/train/eval/tests/scripts`) is in place.
 - Determinism and contract checks exist in tests.
 - End-to-end train/eval flow is runnable from `main.py`.
+
 
 

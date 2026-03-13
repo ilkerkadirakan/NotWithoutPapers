@@ -48,7 +48,7 @@ Action IDs (stable contract):
 - `7` INSPECT_IS_WORKER
 - `8` INSPECT_HAS_WORK_PASS
 - `9` INSPECT_PURPOSE_MATCH
-- `10` INSPECT_SEAL_VALID
+- `10` INSPECT_SEAL_VALID`r`n- `11` INSPECT_BIOMETRIC_MATCH
 
 ### Reward Philosophy
 
@@ -149,5 +149,6 @@ Extension priority rule:
 
 1. keep minimal environment stable
 2. then increase complexity
+
 
 

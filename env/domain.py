@@ -28,6 +28,7 @@ class Applicant:
     has_work_pass: int
     purpose_match: int
     seal_valid: int
+    biometric_match: int
 
 
 def oracle_is_legal(rules: Rules, app: Applicant) -> bool:
@@ -60,6 +61,10 @@ def oracle_is_legal(rules: Rules, app: Applicant) -> bool:
 
     # Declared purpose must be coherent.
     if app.purpose_match == 0:
+        return False
+
+    # Biometric/photo mismatch is a strong stolen-identity signal.
+    if app.biometric_match == 0:
         return False
 
     return True
