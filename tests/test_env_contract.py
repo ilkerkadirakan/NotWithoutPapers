@@ -13,4 +13,4 @@ def test_observation_shape_matches_space() -> None:
 
 def test_action_space_size() -> None:
     env = PapersPleaseEnv(seed=123)
-    assert env.action_space.n == 6
+    assert env.action_space.n == 11

@@ -25,9 +25,14 @@ Action ID'leri:
 - `3`: INSPECT_HAS_PERMIT
 - `4`: INSPECT_EXPIRY_VALID
 - `5`: INSPECT_NAME_MATCH
+- `6`: INSPECT_HAS_ID_CARD
+- `7`: INSPECT_IS_WORKER
+- `8`: INSPECT_HAS_WORK_PASS
+- `9`: INSPECT_PURPOSE_MATCH
+- `10`: INSPECT_SEAL_VALID
 
 Gozlem vektoru:
-- gunluk kural durumu
+- gunluk kural durumu (allowed countries + permit/id card/work pass requirement)
 - mevcut basvuru sahibi ulkesi (one-hot)
 - alan reveal durumu (unknown/true/false)
 - normalize `time_left`

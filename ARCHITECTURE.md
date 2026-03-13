@@ -22,12 +22,13 @@ Core problem characteristics:
 - One episode = one workday
 - Applicants are processed sequentially
 - The agent has a limited inspection time budget
+- Optional mid-day rule update can change policy constraints once during an episode
 
 ### Observation Model
 
 Flat vector includes:
 
-- daily rule state (allowed countries + permit requirement)
+- daily rule state (allowed countries + permit/id card/work-pass requirements)
 - current applicant country (one-hot)
 - reveal status per field (`unknown / true / false`)
 - normalized `time_left`
@@ -43,6 +44,11 @@ Action IDs (stable contract):
 - `3` INSPECT_HAS_PERMIT
 - `4` INSPECT_EXPIRY_VALID
 - `5` INSPECT_NAME_MATCH
+- `6` INSPECT_HAS_ID_CARD
+- `7` INSPECT_IS_WORKER
+- `8` INSPECT_HAS_WORK_PASS
+- `9` INSPECT_PURPOSE_MATCH
+- `10` INSPECT_SEAL_VALID
 
 ### Reward Philosophy
 
@@ -143,3 +149,5 @@ Extension priority rule:
 
 1. keep minimal environment stable
 2. then increase complexity
+
+

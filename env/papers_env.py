@@ -14,8 +14,13 @@ from .constants import (
     ACTION_DENY,
     ACTION_INSPECT_COUNTRY_ALLOWED,
     ACTION_INSPECT_EXPIRY_VALID,
+    ACTION_INSPECT_HAS_ID_CARD,
     ACTION_INSPECT_HAS_PERMIT,
+    ACTION_INSPECT_HAS_WORK_PASS,
+    ACTION_INSPECT_IS_WORKER,
     ACTION_INSPECT_NAME_MATCH,
+    ACTION_INSPECT_PURPOSE_MATCH,
+    ACTION_INSPECT_SEAL_VALID,
     COUNTRIES,
     FIELDS,
     N_ACTIONS,
@@ -36,6 +41,11 @@ class PapersPleaseEnv(gym.Env):
       3 INSPECT_HAS_PERMIT
       4 INSPECT_EXPIRY_VALID
       5 INSPECT_NAME_MATCH
+      6 INSPECT_HAS_ID_CARD
+      7 INSPECT_IS_WORKER
+      8 INSPECT_HAS_WORK_PASS
+      9 INSPECT_PURPOSE_MATCH
+     10 INSPECT_SEAL_VALID
     """
 
     metadata = {"render_modes": ["human"]}
@@ -44,7 +54,8 @@ class PapersPleaseEnv(gym.Env):
         self,
         day_len: int = 25,
         time_budget: int = 60,
-        fraud_rate_range: Tuple[float, float] = (0.10, 0.20),
+        fraud_rate_range: Tuple[float, float] = (0.15, 0.35),
+        mid_day_update_prob: float = 0.6,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -56,14 +67,18 @@ class PapersPleaseEnv(gym.Env):
         fr_min, fr_max = fraud_rate_range
         if not (0.0 <= fr_min <= fr_max <= 1.0):
             raise ValueError("fraud_rate_range must satisfy 0.0 <= min <= max <= 1.0")
+        if not (0.0 <= float(mid_day_update_prob) <= 1.0):
+            raise ValueError("mid_day_update_prob must be in [0.0, 1.0]")
 
         self.day_len = int(day_len)
         self.time_budget = int(time_budget)
         self.fraud_rate_range = fraud_rate_range
+        self.mid_day_update_prob = float(mid_day_update_prob)
         self.debug = bool(debug)
         self._rng = random.Random(seed)
 
-        obs_dim = len(COUNTRIES) + 1 + len(COUNTRIES) + 3 * len(FIELDS) + 2
+        # rules vector: allowed countries + permit_required + id_card_required + work_pass_required
+        obs_dim = len(COUNTRIES) + 3 + len(COUNTRIES) + 3 * len(FIELDS) + 2
         self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(obs_dim,), dtype=np.float32)
         self.action_space = spaces.Discrete(N_ACTIONS)
 
@@ -72,6 +87,10 @@ class PapersPleaseEnv(gym.Env):
         self.idx: int = 0
         self.time_left: int = 0
         self.revealed: Dict[str, int] = {}
+
+        self.mid_day_update_fired: bool = False
+        self.mid_day_update_idx: int = 0
+        self.last_rule_update: Optional[str] = None
 
         self.r_correct = 4.0
         self.p_false_accept = -15.0
@@ -103,7 +122,14 @@ class PapersPleaseEnv(gym.Env):
         rules_vec = np.concatenate(
             [
                 self.rules.allowed_countries_mask.astype(np.float32),
-                np.array([float(self.rules.permit_required)], dtype=np.float32),
+                np.array(
+                    [
+                        float(self.rules.permit_required),
+                        float(self.rules.id_card_required_for_citizens),
+                        float(self.rules.work_pass_required),
+                    ],
+                    dtype=np.float32,
+                ),
             ]
         )
 
@@ -133,6 +159,41 @@ class PapersPleaseEnv(gym.Env):
         """Return valid-shaped terminal observation."""
         return np.zeros(self.observation_space.shape, dtype=np.float32)
 
+    def _maybe_apply_mid_day_rule_update(self) -> Optional[str]:
+        """
+        Optionally apply one deterministic rule change once per episode.
+
+        Returns a short event label when update is applied, else None.
+        """
+        assert self.rules is not None
+        if self.mid_day_update_fired:
+            return None
+        if self.idx < self.mid_day_update_idx:
+            return None
+        if self._rng.random() > self.mid_day_update_prob:
+            self.mid_day_update_fired = True
+            return None
+
+        update_type = self._rng.choice(["permit", "id_card", "work_pass", "country_policy"])
+        if update_type == "permit":
+            self.rules.permit_required = 1 - int(self.rules.permit_required)
+            event = f"rule_update:permit_required={self.rules.permit_required}"
+        elif update_type == "id_card":
+            self.rules.id_card_required_for_citizens = 1 - int(self.rules.id_card_required_for_citizens)
+            event = f"rule_update:id_card_required_for_citizens={self.rules.id_card_required_for_citizens}"
+        elif update_type == "work_pass":
+            self.rules.work_pass_required = 1 - int(self.rules.work_pass_required)
+            event = f"rule_update:work_pass_required={self.rules.work_pass_required}"
+        else:
+            country_idx = self._rng.randrange(len(COUNTRIES))
+            self.rules.allowed_countries_mask[country_idx] = 1 - int(self.rules.allowed_countries_mask[country_idx])
+            state = int(self.rules.allowed_countries_mask[country_idx])
+            event = f"rule_update:country_{COUNTRIES[country_idx]}={state}"
+
+        self.mid_day_update_fired = True
+        self.last_rule_update = event
+        return event
+
     def reset(self, *, seed: Optional[int] = None, options: Optional[dict] = None):
         """Start a new episode (workday) with deterministic seed support."""
         super().reset(seed=seed)
@@ -145,7 +206,7 @@ class PapersPleaseEnv(gym.Env):
             rules=self.rules,
             day_len=self.day_len,
             fraud_rate_range=self.fraud_rate_range,
-            deny_ratio_range=(0.20, 0.40),
+            deny_ratio_range=(0.25, 0.55),
         )
 
         if self.debug:
@@ -154,9 +215,12 @@ class PapersPleaseEnv(gym.Env):
 
         self.idx = 0
         self.time_left = self.time_budget
+        self.mid_day_update_fired = False
+        self.mid_day_update_idx = max(1, self.day_len // 2)
+        self.last_rule_update = None
         self._reset_reveals()
         self._reset_stats()
-        return self._get_obs(), {"fraud_rate": fraud_rate}
+        return self._get_obs(), {"fraud_rate": fraud_rate, "mid_day_update_idx": self.mid_day_update_idx}
 
     def step(self, action: int):
         """Execute decision/inspection action and return Gymnasium transition."""
@@ -173,6 +237,12 @@ class PapersPleaseEnv(gym.Env):
             obs = self._terminal_obs()
             info.update({"time_left": self.time_left, "idx": self.idx})
             return obs, 0.0, terminated, truncated, info
+
+        update_event = self._maybe_apply_mid_day_rule_update()
+        if update_event is not None:
+            info["rule_update"] = update_event
+            if self.debug:
+                print(update_event)
 
         app = self.queue[self.idx]
 
@@ -228,6 +298,36 @@ class PapersPleaseEnv(gym.Env):
             self.time_left -= 1
             self.stats["inspects"] += 1
 
+        elif action == ACTION_INSPECT_HAS_ID_CARD:
+            reveal("has_id_card", int(app.has_id_card))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
+        elif action == ACTION_INSPECT_IS_WORKER:
+            reveal("is_worker", int(app.is_worker))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
+        elif action == ACTION_INSPECT_HAS_WORK_PASS:
+            reveal("has_work_pass", int(app.has_work_pass))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
+        elif action == ACTION_INSPECT_PURPOSE_MATCH:
+            reveal("purpose_match", int(app.purpose_match))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
+        elif action == ACTION_INSPECT_SEAL_VALID:
+            reveal("seal_valid", int(app.seal_valid))
+            reward += self.c_inspect
+            self.time_left -= 1
+            self.stats["inspects"] += 1
+
         else:
             raise ValueError(f"Unknown action: {action}")
 
@@ -251,6 +351,8 @@ class PapersPleaseEnv(gym.Env):
         print(f"Time left: {self.time_left} | Remaining: {len(self.queue) - self.idx}")
         print(
             f"Rules: allowed={[(COUNTRIES[i], int(self.rules.allowed_countries_mask[i])) for i in range(len(COUNTRIES))]}, "
-            f"permit_required={self.rules.permit_required}"
+            f"permit_required={self.rules.permit_required}, "
+            f"id_card_required_for_citizens={self.rules.id_card_required_for_citizens}, "
+            f"work_pass_required={self.rules.work_pass_required}"
         )
         print(f"Applicant country={COUNTRIES[app.country_idx]} | revealed={self.revealed}")

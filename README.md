@@ -13,6 +13,7 @@ Each episode is one workday:
 - Daily rules are sampled (allowed countries, permit requirement).
 - Applicants are processed in a queue.
 - Document fields start hidden.
+- A mid-day rule update may occur once and change active constraints
 - The agent can inspect fields (costs time + small penalty).
 - The agent decides `APPROVE` or `DENY`.
 
@@ -74,7 +75,7 @@ python main.py eval --model-path artifacts/ppo_papers_please.zip --episodes 100
 
 ## Environment Contract (Important)
 
-Action IDs (do not reorder):
+Action IDs (do not reorder existing IDs):
 
 - `0`: APPROVE
 - `1`: DENY
@@ -82,10 +83,15 @@ Action IDs (do not reorder):
 - `3`: INSPECT_HAS_PERMIT
 - `4`: INSPECT_EXPIRY_VALID
 - `5`: INSPECT_NAME_MATCH
+- `6`: INSPECT_HAS_ID_CARD
+- `7`: INSPECT_IS_WORKER
+- `8`: INSPECT_HAS_WORK_PASS
+- `9`: INSPECT_PURPOSE_MATCH
+- `10`: INSPECT_SEAL_VALID
 
 Observation vector contains:
 
-- daily rule state
+- daily rule state (allowed countries + permit/id card/work-pass requirements)
 - current applicant country (one-hot)
 - reveal status per field (unknown / true / false)
 - normalized `time_left`
@@ -127,3 +133,5 @@ PowerShell scripts in `scripts/` are convenience wrappers for Windows, not requi
 - Modularized architecture (`env/train/eval/tests/scripts`) is in place.
 - Determinism and contract checks exist in tests.
 - End-to-end train/eval flow is runnable from `main.py`.
+
+
