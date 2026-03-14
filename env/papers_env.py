@@ -61,8 +61,11 @@ class PapersPleaseEnv(gym.Env):
         mid_day_update_prob: float = 0.6,
         inspect_error_prob: float = 0.0,
         inspect_miss_prob: float = 0.0,
-        decision_coverage_target: float = 0.8,
+        max_inspects_per_applicant: int = 3,
+        decision_coverage_target: float = 0.9,
         coverage_shortfall_penalty: float = -20.0,
+        coverage_hard_threshold: float = 0.9,
+        coverage_hard_penalty: float = -120.0,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -82,10 +85,16 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("inspect_miss_prob must be in [0.0, 1.0]")
         if float(inspect_error_prob) + float(inspect_miss_prob) > 1.0:
             raise ValueError("inspect_error_prob + inspect_miss_prob must be <= 1.0")
+        if int(max_inspects_per_applicant) < 1:
+            raise ValueError("max_inspects_per_applicant must be >= 1")
         if not (0.0 <= float(decision_coverage_target) <= 1.0):
             raise ValueError("decision_coverage_target must be in [0.0, 1.0]")
         if float(coverage_shortfall_penalty) > 0.0:
             raise ValueError("coverage_shortfall_penalty must be <= 0.0")
+        if not (0.0 <= float(coverage_hard_threshold) <= 1.0):
+            raise ValueError("coverage_hard_threshold must be in [0.0, 1.0]")
+        if float(coverage_hard_penalty) > 0.0:
+            raise ValueError("coverage_hard_penalty must be <= 0.0")
 
         self.day_len = int(day_len)
         self.time_budget = int(time_budget)
@@ -93,8 +102,11 @@ class PapersPleaseEnv(gym.Env):
         self.mid_day_update_prob = float(mid_day_update_prob)
         self.inspect_error_prob = float(inspect_error_prob)
         self.inspect_miss_prob = float(inspect_miss_prob)
+        self.max_inspects_per_applicant = int(max_inspects_per_applicant)
         self.decision_coverage_target = float(decision_coverage_target)
         self.coverage_shortfall_penalty = float(coverage_shortfall_penalty)
+        self.coverage_hard_threshold = float(coverage_hard_threshold)
+        self.coverage_hard_penalty = float(coverage_hard_penalty)
         self.debug = bool(debug)
         self._rng = random.Random(seed)
 
@@ -108,6 +120,7 @@ class PapersPleaseEnv(gym.Env):
         self.idx: int = 0
         self.time_left: int = 0
         self.revealed: Dict[str, int] = {}
+        self.current_inspects: int = 0
 
         self.mid_day_update_fired: bool = False
         self.mid_day_update_idx: int = 0
@@ -117,7 +130,7 @@ class PapersPleaseEnv(gym.Env):
         self.p_false_accept = -15.0
         self.p_false_reject = -15.0
         self.c_inspect = -0.1
-        # Penalize unresolved applicants at time-out to prevent inspect-only local optimum.
+        self.p_overinspect = -2.0
         self.p_undecided = 0.0
 
         self.stats = {
@@ -129,7 +142,10 @@ class PapersPleaseEnv(gym.Env):
             "inspect_noise_error": 0,
             "inspect_noise_miss": 0,
             "undecided": 0,
+            "overinspect": 0,
             "coverage_shortfall": 0,
+            "coverage_hard_violations": 0,
+            "decision_coverage": 0.0,
         }
 
     def _reset_reveals(self) -> None:
@@ -139,7 +155,7 @@ class PapersPleaseEnv(gym.Env):
     def _reset_stats(self) -> None:
         """Reset per-episode counters exported as `episode_stats`."""
         for k in self.stats:
-            self.stats[k] = 0
+            self.stats[k] = 0.0 if k == "decision_coverage" else 0
 
     def _get_obs(self) -> np.ndarray:
         """Build flat observation vector according to contract in AGENTS.md."""
@@ -256,6 +272,7 @@ class PapersPleaseEnv(gym.Env):
 
         self.idx = 0
         self.time_left = self.time_budget
+        self.current_inspects = 0
         self.mid_day_update_fired = False
         self.mid_day_update_idx = max(1, self.day_len // 2)
         self.last_rule_update = None
@@ -282,11 +299,18 @@ class PapersPleaseEnv(gym.Env):
         def apply_coverage_penalty() -> None:
             nonlocal reward
             decisions = int(self.stats["approves"]) + int(self.stats["denies"])
+            coverage = decisions / max(1, len(self.queue))
+            self.stats["decision_coverage"] = float(coverage)
+
             target = int(math.ceil(len(self.queue) * self.decision_coverage_target))
             shortfall = max(0, target - decisions)
             if shortfall > 0:
                 self.stats["coverage_shortfall"] += int(shortfall)
                 reward += self.coverage_shortfall_penalty * float(shortfall)
+
+            if coverage < self.coverage_hard_threshold:
+                self.stats["coverage_hard_violations"] += 1
+                reward += self.coverage_hard_penalty
 
         if self.time_left <= 0:
             truncated = True
@@ -310,11 +334,19 @@ class PapersPleaseEnv(gym.Env):
 
         def inspect(field: str, true_value: int) -> None:
             nonlocal reward
+            if self.current_inspects >= self.max_inspects_per_applicant:
+                # Over-limit inspect attempts are allowed but costly; agent must still choose APPROVE/DENY.
+                self.stats["overinspect"] += 1
+                self.time_left -= 1
+                reward += self.p_overinspect
+                return
+
             observed = self._apply_inspect_noise(int(true_value))
             reveal(field, observed)
             reward += self.c_inspect
             self.time_left -= 1
             self.stats["inspects"] += 1
+            self.current_inspects += 1
 
         if action in (ACTION_APPROVE, ACTION_DENY):
             legal = oracle_is_legal(self.rules, app)
@@ -337,6 +369,7 @@ class PapersPleaseEnv(gym.Env):
                 reward += self.r_correct
 
             self.idx += 1
+            self.current_inspects = 0
             self._reset_reveals()
             if self.idx >= len(self.queue):
                 terminated = True
@@ -373,6 +406,9 @@ class PapersPleaseEnv(gym.Env):
 
         else:
             raise ValueError(f"Unknown action: {action}")
+
+        if self.idx >= len(self.queue):
+            terminated = True
 
         if (not terminated) and self.time_left <= 0:
             truncated = True

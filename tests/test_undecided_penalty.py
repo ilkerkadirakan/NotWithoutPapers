@@ -14,6 +14,7 @@ def test_time_out_has_no_undecided_penalty_by_default() -> None:
         inspect_error_prob=0.0,
         inspect_miss_prob=0.0,
         decision_coverage_target=0.0,
+        coverage_hard_threshold=0.0,
     )
     env.reset(seed=7)
 
@@ -22,7 +23,7 @@ def test_time_out_has_no_undecided_penalty_by_default() -> None:
     assert not terminated
     assert truncated
     assert "episode_stats" in info
-    # Counter can still be tracked, but default penalty is disabled.
+    # Counter can still be tracked, but default undecided penalty is disabled.
     assert info["episode_stats"]["undecided"] == 10
-    # With zero undecided penalty and disabled coverage penalty target, only inspect cost is applied.
+    # With disabled coverage constraints, only inspect cost is applied.
     assert abs(reward - env.c_inspect) < 1e-9

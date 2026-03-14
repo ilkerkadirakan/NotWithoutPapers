@@ -49,6 +49,7 @@ class EpisodeStatsCallback(BaseCallback):
                 f"[train] episodes={n_episodes} "
                 f"avg_reward={summary.mean_reward:.3f} "
                 f"acc={summary.decision_accuracy:.3f} "
+                f"cov={summary.decision_coverage:.3f} "
                 f"fa={summary.false_accept_rate:.3f} "
                 f"fr={summary.false_reject_rate:.3f} "
                 f"inspect={summary.inspection_frequency:.3f}"

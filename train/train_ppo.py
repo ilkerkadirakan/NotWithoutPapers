@@ -3,7 +3,7 @@ from __future__ import annotations
 """PPO training entrypoint for PapersPleaseEnv.
 
 This module trains a baseline PPO policy, saves the model, and runs
-deterministic evaluation at the end.
+ deterministic evaluation at the end.
 """
 
 import argparse
@@ -61,6 +61,7 @@ def main() -> None:
     print(f"episodes              : {args.eval_episodes}")
     print(f"episode reward        : {summary.mean_reward:.3f}")
     print(f"decision accuracy     : {summary.decision_accuracy:.3f}")
+    print(f"decision coverage     : {summary.decision_coverage:.3f}")
     print(f"false accept rate     : {summary.false_accept_rate:.3f}")
     print(f"false reject rate     : {summary.false_reject_rate:.3f}")
     print(f"inspection frequency  : {summary.inspection_frequency:.3f}")
