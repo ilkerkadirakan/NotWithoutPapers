@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from env import PapersPleaseEnv
 from env.constants import ACTION_INSPECT_HAS_PERMIT, ACTION_INSPECT_NAME_MATCH
+from env.domain import oracle_is_legal
 
 
-def test_overinspect_penalizes_and_stays_on_same_applicant() -> None:
+def test_overinspect_forces_deny_and_advances_queue() -> None:
     env = PapersPleaseEnv(
         seed=11,
         day_len=5,
@@ -23,13 +24,19 @@ def test_overinspect_penalizes_and_stays_on_same_applicant() -> None:
     assert not truncated
     assert info["idx"] == 0
 
-    # Second inspect on same applicant exceeds cap -> penalty, no queue advance.
+    legal = oracle_is_legal(env.rules, env.queue[env.idx])
+
+    # Second inspect on same applicant exceeds cap -> forced DENY decision.
     _, reward, terminated, truncated, info = env.step(ACTION_INSPECT_NAME_MATCH)
     assert not terminated
     assert not truncated
-    assert info["idx"] == 0
+    assert info["idx"] == 1
     assert info["time_left"] == 18
-    assert abs(reward - env.p_overinspect) < 1e-9
+
+    expected_decision = env.p_false_reject if legal else env.r_correct
+    expected = env.p_overinspect + expected_decision
+    assert abs(reward - expected) < 1e-9
+
     assert env.stats["undecided"] == 0
     assert env.stats["overinspect"] == 1
-    assert env.stats["denies"] == 0
+    assert env.stats["denies"] == 1

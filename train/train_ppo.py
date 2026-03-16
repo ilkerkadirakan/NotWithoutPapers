@@ -32,7 +32,6 @@ from env.constants import (
     ACTION_INSPECT_SEAL_VALID,
     COUNTRIES,
 )
-from env.domain import oracle_is_legal
 from eval.evaluate import evaluate_model
 from train.callbacks import EpisodeStatsCallback
 
@@ -47,7 +46,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--save-path", type=Path, default=Path("artifacts/ppo_papers_please.zip"))
     parser.add_argument("--print-every", type=int, default=50)
     parser.add_argument("--progress-bar", action="store_true")
-    parser.add_argument("--ent-coef", type=float, default=0.01)
+    parser.add_argument("--ent-coef", type=float, default=0.0)
 
     # Behavior cloning warm-start params
     parser.add_argument("--bc-pretrain-episodes", type=int, default=0)
@@ -75,6 +74,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--p-false-reject", type=float, default=-15.0)
     parser.add_argument("--c-inspect", type=float, default=-0.1)
     parser.add_argument("--p-overinspect", type=float, default=-2.0)
+    parser.add_argument("--p-reinspect", type=float, default=-0.5)
     parser.add_argument("--p-undecided", type=float, default=0.0)
 
     return parser.parse_args()
@@ -98,47 +98,18 @@ def _build_env_kwargs(args: argparse.Namespace) -> Dict[str, object]:
         p_false_reject=args.p_false_reject,
         c_inspect=args.c_inspect,
         p_overinspect=args.p_overinspect,
+        p_reinspect=args.p_reinspect,
         p_undecided=args.p_undecided,
         seed=args.seed,
     )
 
 
-def _expert_action(env: PapersPleaseEnv) -> int:
-    """Heuristic expert policy for BC data generation."""
+def _decision_from_reveals(env: PapersPleaseEnv, fallback_approve: bool = True) -> int:
+    """Return approve/deny using only revealed information (no oracle leakage)."""
     assert env.rules is not None
     app = env.queue[env.idx]
     rev = env.revealed
     citizen = int(app.country_idx == COUNTRIES.index("ARSTOTZKA"))
-
-    # Avoid inspect loops in expert trajectories: force decision near inspect budget.
-    if env.current_inspects >= max(1, env.max_inspects_per_applicant - 1):
-        return ACTION_APPROVE if oracle_is_legal(env.rules, app) else ACTION_DENY
-
-    # High-value global checks first.
-    if rev["country_allowed"] == -1:
-        return ACTION_INSPECT_COUNTRY_ALLOWED
-    if rev["expiry_valid"] == -1:
-        return ACTION_INSPECT_EXPIRY_VALID
-    if rev["purpose_match"] == -1:
-        return ACTION_INSPECT_PURPOSE_MATCH
-    if rev["biometric_match"] == -1:
-        return ACTION_INSPECT_BIOMETRIC_MATCH
-
-    # Rule-dependent document checks.
-    if citizen == 0 and env.rules.permit_required == 1 and rev["has_permit"] == -1:
-        return ACTION_INSPECT_HAS_PERMIT
-    if citizen == 1 and env.rules.id_card_required_for_citizens == 1 and rev["has_id_card"] == -1:
-        return ACTION_INSPECT_HAS_ID_CARD
-
-    if rev["is_worker"] == -1:
-        return ACTION_INSPECT_IS_WORKER
-    if rev["is_worker"] == 1 and env.rules.work_pass_required == 1 and rev["has_work_pass"] == -1:
-        return ACTION_INSPECT_HAS_WORK_PASS
-
-    if rev["has_permit"] == 1 and rev["name_match"] == -1:
-        return ACTION_INSPECT_NAME_MATCH
-    if rev["has_permit"] == 1 and rev["seal_valid"] == -1:
-        return ACTION_INSPECT_SEAL_VALID
 
     deny_flags = [
         rev["country_allowed"] == 0,
@@ -173,17 +144,46 @@ def _expert_action(env: PapersPleaseEnv) -> int:
     if all(required_known):
         return ACTION_APPROVE
 
-    for field, act in (
-        ("has_permit", ACTION_INSPECT_HAS_PERMIT),
-        ("has_id_card", ACTION_INSPECT_HAS_ID_CARD),
-        ("has_work_pass", ACTION_INSPECT_HAS_WORK_PASS),
-        ("name_match", ACTION_INSPECT_NAME_MATCH),
-        ("seal_valid", ACTION_INSPECT_SEAL_VALID),
-    ):
-        if rev[field] == -1:
-            return act
+    return ACTION_APPROVE if fallback_approve else ACTION_DENY
 
-    return ACTION_DENY
+
+def _expert_action(env: PapersPleaseEnv) -> int:
+    """Heuristic expert policy for BC data generation (observation-only)."""
+    assert env.rules is not None
+    rev = env.revealed
+    citizen = int(env.queue[env.idx].country_idx == COUNTRIES.index("ARSTOTZKA"))
+
+    # Force a decision before inspect cap to avoid inspect loops in BC trajectories.
+    if env.current_inspects >= max(1, env.max_inspects_per_applicant - 1):
+        return _decision_from_reveals(env, fallback_approve=True)
+
+    # High-value global checks first.
+    if rev["country_allowed"] == -1:
+        return ACTION_INSPECT_COUNTRY_ALLOWED
+    if rev["expiry_valid"] == -1:
+        return ACTION_INSPECT_EXPIRY_VALID
+    if rev["purpose_match"] == -1:
+        return ACTION_INSPECT_PURPOSE_MATCH
+    if rev["biometric_match"] == -1:
+        return ACTION_INSPECT_BIOMETRIC_MATCH
+
+    # Rule-dependent document checks.
+    if citizen == 0 and env.rules.permit_required == 1 and rev["has_permit"] == -1:
+        return ACTION_INSPECT_HAS_PERMIT
+    if citizen == 1 and env.rules.id_card_required_for_citizens == 1 and rev["has_id_card"] == -1:
+        return ACTION_INSPECT_HAS_ID_CARD
+
+    if rev["is_worker"] == -1:
+        return ACTION_INSPECT_IS_WORKER
+    if rev["is_worker"] == 1 and env.rules.work_pass_required == 1 and rev["has_work_pass"] == -1:
+        return ACTION_INSPECT_HAS_WORK_PASS
+
+    if rev["has_permit"] == 1 and rev["name_match"] == -1:
+        return ACTION_INSPECT_NAME_MATCH
+    if rev["has_permit"] == 1 and rev["seal_valid"] == -1:
+        return ACTION_INSPECT_SEAL_VALID
+
+    return _decision_from_reveals(env, fallback_approve=True)
 
 
 def _collect_bc_dataset(env_kwargs: Dict[str, object], episodes: int, seed: int) -> Tuple[np.ndarray, np.ndarray]:
@@ -207,7 +207,7 @@ def _collect_bc_dataset(env_kwargs: Dict[str, object], episodes: int, seed: int)
 
         if (not done) and env.idx < len(env.queue):
             while env.idx < len(env.queue) and env.time_left > 0:
-                forced = ACTION_APPROVE if oracle_is_legal(env.rules, env.queue[env.idx]) else ACTION_DENY
+                forced = _decision_from_reveals(env, fallback_approve=True)
                 obs_buf.append(np.asarray(obs, dtype=np.float32))
                 act_buf.append(int(forced))
                 obs, _, term, trunc, _ = env.step(forced)
@@ -227,7 +227,8 @@ def _rebalance_bc_dataset(obs_np: np.ndarray, act_np: np.ndarray, seed: int) -> 
     if decision_idx.size == 0 or inspect_idx.size == 0:
         return obs_np, act_np
 
-    max_inspects = min(inspect_idx.size, max(decision_idx.size, 2 * decision_idx.size))
+    # Keep inspect samples at most half of decision samples.
+    max_inspects = min(inspect_idx.size, max(1, decision_idx.size // 2))
     rng = np.random.default_rng(seed)
     keep_inspect = rng.choice(inspect_idx, size=max_inspects, replace=False)
     keep_idx = np.concatenate([decision_idx, keep_inspect])
@@ -351,9 +352,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-

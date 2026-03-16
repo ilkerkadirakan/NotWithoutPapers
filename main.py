@@ -77,6 +77,8 @@ def _run_train(args: argparse.Namespace) -> int:
         str(args.c_inspect),
         "--p-overinspect",
         str(args.p_overinspect),
+        "--p-reinspect",
+        str(args.p_reinspect),
         "--p-undecided",
         str(args.p_undecided),
     ]
@@ -154,6 +156,7 @@ def _add_train_env_args(train_parser: argparse.ArgumentParser) -> None:
     train_parser.add_argument("--p-false-reject", type=float, default=-15.0)
     train_parser.add_argument("--c-inspect", type=float, default=-0.1)
     train_parser.add_argument("--p-overinspect", type=float, default=-2.0)
+    train_parser.add_argument("--p-reinspect", type=float, default=-0.5)
     train_parser.add_argument("--p-undecided", type=float, default=0.0)
 
 
@@ -170,7 +173,7 @@ def build_parser() -> argparse.ArgumentParser:
     train_parser.add_argument("--save-path", type=Path, default=Path("artifacts/ppo_papers_please.zip"))
     train_parser.add_argument("--print-every", type=int, default=50)
     train_parser.add_argument("--progress-bar", action="store_true")
-    train_parser.add_argument("--ent-coef", type=float, default=0.01)
+    train_parser.add_argument("--ent-coef", type=float, default=0.0)
     train_parser.add_argument("--bc-pretrain-episodes", type=int, default=0)
     train_parser.add_argument("--bc-epochs", type=int, default=5)
     train_parser.add_argument("--bc-batch-size", type=int, default=512)

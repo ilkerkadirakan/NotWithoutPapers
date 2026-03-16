@@ -71,6 +71,7 @@ class PapersPleaseEnv(gym.Env):
         p_false_reject: float = -15.0,
         c_inspect: float = -0.1,
         p_overinspect: float = -2.0,
+        p_reinspect: float = -0.5,
         p_undecided: float = 0.0,
         debug: bool = False,
         seed: Optional[int] = None,
@@ -109,6 +110,8 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("c_inspect must be <= 0.0")
         if float(p_overinspect) > 0.0:
             raise ValueError("p_overinspect must be <= 0.0")
+        if float(p_reinspect) > 0.0:
+            raise ValueError("p_reinspect must be <= 0.0")
         if float(p_undecided) > 0.0:
             raise ValueError("p_undecided must be <= 0.0")
 
@@ -127,7 +130,7 @@ class PapersPleaseEnv(gym.Env):
         self._rng = random.Random(seed)
 
         # rules vector: allowed countries + permit_required + id_card_required + work_pass_required
-        obs_dim = len(COUNTRIES) + 3 + len(COUNTRIES) + 3 * len(FIELDS) + 2
+        obs_dim = len(COUNTRIES) + 3 + len(COUNTRIES) + 3 * len(FIELDS) + 3
         self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(obs_dim,), dtype=np.float32)
         self.action_space = spaces.Discrete(N_ACTIONS)
 
@@ -147,6 +150,7 @@ class PapersPleaseEnv(gym.Env):
         self.p_false_reject = float(p_false_reject)
         self.c_inspect = float(c_inspect)
         self.p_overinspect = float(p_overinspect)
+        self.p_reinspect = float(p_reinspect)
         self.p_undecided = float(p_undecided)
 
         self.stats = {
@@ -155,6 +159,7 @@ class PapersPleaseEnv(gym.Env):
             "false_accept": 0,
             "false_reject": 0,
             "inspects": 0,
+            "reinspect": 0,
             "inspect_noise_error": 0,
             "inspect_noise_miss": 0,
             "undecided": 0,
@@ -208,10 +213,11 @@ class PapersPleaseEnv(gym.Env):
         reveal_vec = np.array(reveal_parts, dtype=np.float32)
 
         time_norm = np.array([self.time_left / max(1, self.time_budget)], dtype=np.float32)
+        inspect_norm = np.array([self.current_inspects / max(1, self.max_inspects_per_applicant)], dtype=np.float32)
         remaining = (len(self.queue) - self.idx) / max(1, len(self.queue))
         remaining_norm = np.array([remaining], dtype=np.float32)
 
-        obs = np.concatenate([rules_vec, country_oh, reveal_vec, time_norm, remaining_norm]).astype(np.float32)
+        obs = np.concatenate([rules_vec, country_oh, reveal_vec, time_norm, inspect_norm, remaining_norm]).astype(np.float32)
         return obs
 
     def _terminal_obs(self) -> np.ndarray:
@@ -344,18 +350,62 @@ class PapersPleaseEnv(gym.Env):
                 print(update_event)
 
         app = self.queue[self.idx]
+        inspect_field_map = {
+            ACTION_INSPECT_COUNTRY_ALLOWED: "country_allowed",
+            ACTION_INSPECT_HAS_PERMIT: "has_permit",
+            ACTION_INSPECT_EXPIRY_VALID: "expiry_valid",
+            ACTION_INSPECT_NAME_MATCH: "name_match",
+            ACTION_INSPECT_HAS_ID_CARD: "has_id_card",
+            ACTION_INSPECT_IS_WORKER: "is_worker",
+            ACTION_INSPECT_HAS_WORK_PASS: "has_work_pass",
+            ACTION_INSPECT_PURPOSE_MATCH: "purpose_match",
+            ACTION_INSPECT_SEAL_VALID: "seal_valid",
+            ACTION_INSPECT_BIOMETRIC_MATCH: "biometric_match",
+        }
+        inspect_actions = set(inspect_field_map.keys())
+
+        def decision_from_reveals() -> int:
+            citizen = int(app.country_idx == COUNTRIES.index("ARSTOTZKA"))
+            deny_flags = [
+                self.revealed["country_allowed"] == 0,
+                self.revealed["expiry_valid"] == 0,
+                self.revealed["purpose_match"] == 0,
+                self.revealed["biometric_match"] == 0,
+                self.revealed["has_permit"] == 0 and citizen == 0 and self.rules.permit_required == 1,
+                self.revealed["has_id_card"] == 0 and citizen == 1 and self.rules.id_card_required_for_citizens == 1,
+                self.revealed["is_worker"] == 1 and self.revealed["has_work_pass"] == 0 and self.rules.work_pass_required == 1,
+                self.revealed["has_permit"] == 1 and self.revealed["name_match"] == 0,
+                self.revealed["has_permit"] == 1 and self.revealed["seal_valid"] == 0,
+            ]
+            if any(deny_flags):
+                return ACTION_DENY
+            return ACTION_APPROVE
+
+        # If near inspect cap and selected action is a redundant re-inspect, force a reveal-based decision.
+        if action in inspect_actions:
+            field = inspect_field_map[int(action)]
+            near_cap = self.current_inspects >= max(1, self.max_inspects_per_applicant - 1)
+            if self.revealed[field] != -1 and near_cap:
+                self.stats["reinspect"] += 1
+                self.time_left -= 1
+                reward += self.p_reinspect
+                action = decision_from_reveals()
+
+        # If inspect cap is exceeded, force a DENY decision to prevent inspect-only deadlocks.
+        if action in inspect_actions and self.current_inspects >= self.max_inspects_per_applicant:
+            self.stats["overinspect"] += 1
+            self.time_left -= 1
+            reward += self.p_overinspect
+            action = ACTION_DENY
 
         def reveal(field: str, value: int) -> None:
             self.revealed[field] = int(value)
 
         def inspect(field: str, true_value: int) -> None:
             nonlocal reward
-            if self.current_inspects >= self.max_inspects_per_applicant:
-                # Over-limit inspect attempts are allowed but costly; agent must still choose APPROVE/DENY.
-                self.stats["overinspect"] += 1
-                self.time_left -= 1
-                reward += self.p_overinspect
-                return
+            if self.revealed[field] != -1:
+                self.stats["reinspect"] += 1
+                reward += self.p_reinspect
 
             observed = self._apply_inspect_noise(int(true_value))
             reveal(field, observed)
@@ -453,6 +503,21 @@ class PapersPleaseEnv(gym.Env):
             f"work_pass_required={self.rules.work_pass_required}"
         )
         print(f"Applicant country={COUNTRIES[app.country_idx]} | revealed={self.revealed}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
