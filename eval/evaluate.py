@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Deterministic policy evaluation loop for saved/active PPO models."""
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from stable_baselines3 import PPO
 
@@ -10,9 +10,16 @@ from env import PapersPleaseEnv
 from eval.metrics import EvalSummary, summarize_episode_stats
 
 
-def evaluate_model(model: PPO, episodes: int, seed: int) -> EvalSummary:
+def evaluate_model(
+    model: PPO,
+    episodes: int,
+    seed: int,
+    env_kwargs: Optional[Dict[str, object]] = None,
+) -> EvalSummary:
     """Run policy for N episodes and return aggregate metrics."""
-    env = PapersPleaseEnv(seed=seed)
+    kwargs = dict(env_kwargs or {})
+    kwargs.setdefault("seed", seed)
+    env = PapersPleaseEnv(**kwargs)
     all_rewards: List[float] = []
     all_stats: List[Dict[str, float]] = []
 

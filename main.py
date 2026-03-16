@@ -33,6 +33,52 @@ def _run_train(args: argparse.Namespace) -> int:
         str(args.save_path),
         "--print-every",
         str(args.print_every),
+        "--ent-coef",
+        str(args.ent_coef),
+        "--bc-pretrain-episodes",
+        str(args.bc_pretrain_episodes),
+        "--bc-epochs",
+        str(args.bc_epochs),
+        "--bc-batch-size",
+        str(args.bc_batch_size),
+        "--bc-lr",
+        str(args.bc_lr),
+        "--day-len",
+        str(args.day_len),
+        "--time-budget",
+        str(args.time_budget),
+        "--fraud-rate-min",
+        str(args.fraud_rate_min),
+        "--fraud-rate-max",
+        str(args.fraud_rate_max),
+        "--mid-day-update-prob",
+        str(args.mid_day_update_prob),
+        "--inspect-error-prob",
+        str(args.inspect_error_prob),
+        "--inspect-miss-prob",
+        str(args.inspect_miss_prob),
+        "--max-inspects-per-applicant",
+        str(args.max_inspects_per_applicant),
+        "--decision-coverage-target",
+        str(args.decision_coverage_target),
+        "--coverage-shortfall-penalty",
+        str(args.coverage_shortfall_penalty),
+        "--coverage-hard-threshold",
+        str(args.coverage_hard_threshold),
+        "--coverage-hard-penalty",
+        str(args.coverage_hard_penalty),
+        "--r-correct",
+        str(args.r_correct),
+        "--p-false-accept",
+        str(args.p_false_accept),
+        "--p-false-reject",
+        str(args.p_false_reject),
+        "--c-inspect",
+        str(args.c_inspect),
+        "--p-overinspect",
+        str(args.p_overinspect),
+        "--p-undecided",
+        str(args.p_undecided),
     ]
     if args.progress_bar:
         cmd.append("--progress-bar")
@@ -89,6 +135,28 @@ def _run_smoke(args: argparse.Namespace) -> int:
     return int(result.returncode)
 
 
+def _add_train_env_args(train_parser: argparse.ArgumentParser) -> None:
+    """Add environment and reward parameter overrides for training."""
+    train_parser.add_argument("--day-len", type=int, default=25)
+    train_parser.add_argument("--time-budget", type=int, default=60)
+    train_parser.add_argument("--fraud-rate-min", type=float, default=0.15)
+    train_parser.add_argument("--fraud-rate-max", type=float, default=0.35)
+    train_parser.add_argument("--mid-day-update-prob", type=float, default=0.6)
+    train_parser.add_argument("--inspect-error-prob", type=float, default=0.0)
+    train_parser.add_argument("--inspect-miss-prob", type=float, default=0.0)
+    train_parser.add_argument("--max-inspects-per-applicant", type=int, default=3)
+    train_parser.add_argument("--decision-coverage-target", type=float, default=0.9)
+    train_parser.add_argument("--coverage-shortfall-penalty", type=float, default=-20.0)
+    train_parser.add_argument("--coverage-hard-threshold", type=float, default=0.9)
+    train_parser.add_argument("--coverage-hard-penalty", type=float, default=-120.0)
+    train_parser.add_argument("--r-correct", type=float, default=6.0)
+    train_parser.add_argument("--p-false-accept", type=float, default=-15.0)
+    train_parser.add_argument("--p-false-reject", type=float, default=-15.0)
+    train_parser.add_argument("--c-inspect", type=float, default=-0.1)
+    train_parser.add_argument("--p-overinspect", type=float, default=-2.0)
+    train_parser.add_argument("--p-undecided", type=float, default=0.0)
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build CLI parser with `train`, `eval`, and `smoke` subcommands."""
     parser = argparse.ArgumentParser(description="Project entrypoint for smoke/train/eval workflows.")
@@ -102,6 +170,12 @@ def build_parser() -> argparse.ArgumentParser:
     train_parser.add_argument("--save-path", type=Path, default=Path("artifacts/ppo_papers_please.zip"))
     train_parser.add_argument("--print-every", type=int, default=50)
     train_parser.add_argument("--progress-bar", action="store_true")
+    train_parser.add_argument("--ent-coef", type=float, default=0.01)
+    train_parser.add_argument("--bc-pretrain-episodes", type=int, default=0)
+    train_parser.add_argument("--bc-epochs", type=int, default=5)
+    train_parser.add_argument("--bc-batch-size", type=int, default=512)
+    train_parser.add_argument("--bc-lr", type=float, default=1e-3)
+    _add_train_env_args(train_parser)
     train_parser.set_defaults(func=_run_train)
 
     eval_parser = subparsers.add_parser("eval", help="Evaluate a saved PPO model.")

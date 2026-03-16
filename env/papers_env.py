@@ -66,6 +66,12 @@ class PapersPleaseEnv(gym.Env):
         coverage_shortfall_penalty: float = -20.0,
         coverage_hard_threshold: float = 0.9,
         coverage_hard_penalty: float = -120.0,
+        r_correct: float = 6.0,
+        p_false_accept: float = -15.0,
+        p_false_reject: float = -15.0,
+        c_inspect: float = -0.1,
+        p_overinspect: float = -2.0,
+        p_undecided: float = 0.0,
         debug: bool = False,
         seed: Optional[int] = None,
     ):
@@ -95,6 +101,16 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("coverage_hard_threshold must be in [0.0, 1.0]")
         if float(coverage_hard_penalty) > 0.0:
             raise ValueError("coverage_hard_penalty must be <= 0.0")
+        if float(p_false_accept) > 0.0:
+            raise ValueError("p_false_accept must be <= 0.0")
+        if float(p_false_reject) > 0.0:
+            raise ValueError("p_false_reject must be <= 0.0")
+        if float(c_inspect) > 0.0:
+            raise ValueError("c_inspect must be <= 0.0")
+        if float(p_overinspect) > 0.0:
+            raise ValueError("p_overinspect must be <= 0.0")
+        if float(p_undecided) > 0.0:
+            raise ValueError("p_undecided must be <= 0.0")
 
         self.day_len = int(day_len)
         self.time_budget = int(time_budget)
@@ -126,12 +142,12 @@ class PapersPleaseEnv(gym.Env):
         self.mid_day_update_idx: int = 0
         self.last_rule_update: Optional[str] = None
 
-        self.r_correct = 6.0
-        self.p_false_accept = -15.0
-        self.p_false_reject = -15.0
-        self.c_inspect = -0.1
-        self.p_overinspect = -2.0
-        self.p_undecided = 0.0
+        self.r_correct = float(r_correct)
+        self.p_false_accept = float(p_false_accept)
+        self.p_false_reject = float(p_false_reject)
+        self.c_inspect = float(c_inspect)
+        self.p_overinspect = float(p_overinspect)
+        self.p_undecided = float(p_undecided)
 
         self.stats = {
             "approves": 0,
@@ -437,3 +453,6 @@ class PapersPleaseEnv(gym.Env):
             f"work_pass_required={self.rules.work_pass_required}"
         )
         print(f"Applicant country={COUNTRIES[app.country_idx]} | revealed={self.revealed}")
+
+
+
