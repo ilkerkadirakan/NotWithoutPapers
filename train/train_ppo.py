@@ -1,15 +1,11 @@
 from __future__ import annotations
 
-"""PPO training entrypoint for PapersPleaseEnv.
-
-This module optionally runs behavior cloning warm-start with a heuristic expert,
-then trains PPO and evaluates the final policy.
-"""
+"""PPO training entrypoint for PapersPleaseEnv."""
 
 import argparse
 import random
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import numpy as np
 import torch as th
@@ -17,21 +13,6 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 
 from env import PapersPleaseEnv
-from env.constants import (
-    ACTION_APPROVE,
-    ACTION_DENY,
-    ACTION_INSPECT_BIOMETRIC_MATCH,
-    ACTION_INSPECT_COUNTRY_ALLOWED,
-    ACTION_INSPECT_EXPIRY_VALID,
-    ACTION_INSPECT_HAS_ID_CARD,
-    ACTION_INSPECT_HAS_PERMIT,
-    ACTION_INSPECT_HAS_WORK_PASS,
-    ACTION_INSPECT_IS_WORKER,
-    ACTION_INSPECT_NAME_MATCH,
-    ACTION_INSPECT_PURPOSE_MATCH,
-    ACTION_INSPECT_SEAL_VALID,
-    COUNTRIES,
-)
 from eval.evaluate import evaluate_model
 from train.callbacks import EpisodeStatsCallback
 
@@ -47,12 +28,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--print-every", type=int, default=50)
     parser.add_argument("--progress-bar", action="store_true")
     parser.add_argument("--ent-coef", type=float, default=0.0)
-
-    # Behavior cloning warm-start params
-    parser.add_argument("--bc-pretrain-episodes", type=int, default=0)
-    parser.add_argument("--bc-epochs", type=int, default=5)
-    parser.add_argument("--bc-batch-size", type=int, default=512)
-    parser.add_argument("--bc-lr", type=float, default=1e-3)
 
     # Environment params
     parser.add_argument("--day-len", type=int, default=25)
@@ -104,198 +79,8 @@ def _build_env_kwargs(args: argparse.Namespace) -> Dict[str, object]:
     )
 
 
-def _decision_from_reveals(env: PapersPleaseEnv, fallback_approve: bool = True) -> int:
-    """Return approve/deny using only revealed information (no oracle leakage)."""
-    assert env.rules is not None
-    app = env.queue[env.idx]
-    rev = env.revealed
-    citizen = int(app.country_idx == COUNTRIES.index("ARSTOTZKA"))
-
-    deny_flags = [
-        rev["country_allowed"] == 0,
-        rev["expiry_valid"] == 0,
-        rev["purpose_match"] == 0,
-        rev["biometric_match"] == 0,
-        rev["has_permit"] == 0 and citizen == 0 and env.rules.permit_required == 1,
-        rev["has_id_card"] == 0 and citizen == 1 and env.rules.id_card_required_for_citizens == 1,
-        rev["is_worker"] == 1 and rev["has_work_pass"] == 0 and env.rules.work_pass_required == 1,
-        rev["has_permit"] == 1 and rev["name_match"] == 0,
-        rev["has_permit"] == 1 and rev["seal_valid"] == 0,
-    ]
-    if any(deny_flags):
-        return ACTION_DENY
-
-    required_known = [
-        rev["country_allowed"] != -1,
-        rev["expiry_valid"] != -1,
-        rev["purpose_match"] != -1,
-        rev["biometric_match"] != -1,
-    ]
-    if citizen == 0 and env.rules.permit_required == 1:
-        required_known.append(rev["has_permit"] != -1)
-    if citizen == 1 and env.rules.id_card_required_for_citizens == 1:
-        required_known.append(rev["has_id_card"] != -1)
-    if rev["is_worker"] != -1 and rev["is_worker"] == 1 and env.rules.work_pass_required == 1:
-        required_known.append(rev["has_work_pass"] != -1)
-    if rev["has_permit"] == 1:
-        required_known.append(rev["name_match"] != -1)
-        required_known.append(rev["seal_valid"] != -1)
-
-    if all(required_known):
-        return ACTION_APPROVE
-
-    return ACTION_APPROVE if fallback_approve else ACTION_DENY
-
-
-def _expert_action(env: PapersPleaseEnv) -> int:
-    """Heuristic expert policy for BC data generation (observation-only)."""
-    assert env.rules is not None
-    rev = env.revealed
-    citizen = int(env.queue[env.idx].country_idx == COUNTRIES.index("ARSTOTZKA"))
-
-    # Force a decision before inspect cap to avoid inspect loops in BC trajectories.
-    if env.current_inspects >= max(1, env.max_inspects_per_applicant - 1):
-        return _decision_from_reveals(env, fallback_approve=True)
-
-    # High-value global checks first.
-    if rev["country_allowed"] == -1:
-        return ACTION_INSPECT_COUNTRY_ALLOWED
-    if rev["expiry_valid"] == -1:
-        return ACTION_INSPECT_EXPIRY_VALID
-    if rev["purpose_match"] == -1:
-        return ACTION_INSPECT_PURPOSE_MATCH
-    if rev["biometric_match"] == -1:
-        return ACTION_INSPECT_BIOMETRIC_MATCH
-
-    # Rule-dependent document checks.
-    if citizen == 0 and env.rules.permit_required == 1 and rev["has_permit"] == -1:
-        return ACTION_INSPECT_HAS_PERMIT
-    if citizen == 1 and env.rules.id_card_required_for_citizens == 1 and rev["has_id_card"] == -1:
-        return ACTION_INSPECT_HAS_ID_CARD
-
-    if rev["is_worker"] == -1:
-        return ACTION_INSPECT_IS_WORKER
-    if rev["is_worker"] == 1 and env.rules.work_pass_required == 1 and rev["has_work_pass"] == -1:
-        return ACTION_INSPECT_HAS_WORK_PASS
-
-    if rev["has_permit"] == 1 and rev["name_match"] == -1:
-        return ACTION_INSPECT_NAME_MATCH
-    if rev["has_permit"] == 1 and rev["seal_valid"] == -1:
-        return ACTION_INSPECT_SEAL_VALID
-
-    return _decision_from_reveals(env, fallback_approve=True)
-
-
-def _collect_bc_dataset(env_kwargs: Dict[str, object], episodes: int, seed: int) -> Tuple[np.ndarray, np.ndarray]:
-    env = PapersPleaseEnv(**env_kwargs)
-    obs_buf: List[np.ndarray] = []
-    act_buf: List[int] = []
-
-    for ep in range(episodes):
-        obs, _ = env.reset(seed=seed + ep)
-        done = False
-        step_guard = 0
-        max_steps = env.day_len * (env.max_inspects_per_applicant + 2)
-
-        while not done and step_guard < max_steps:
-            action = _expert_action(env)
-            obs_buf.append(np.asarray(obs, dtype=np.float32))
-            act_buf.append(int(action))
-            obs, _, term, trunc, _ = env.step(action)
-            done = bool(term or trunc)
-            step_guard += 1
-
-        if (not done) and env.idx < len(env.queue):
-            while env.idx < len(env.queue) and env.time_left > 0:
-                forced = _decision_from_reveals(env, fallback_approve=True)
-                obs_buf.append(np.asarray(obs, dtype=np.float32))
-                act_buf.append(int(forced))
-                obs, _, term, trunc, _ = env.step(forced)
-                if term or trunc:
-                    break
-
-    return np.asarray(obs_buf, dtype=np.float32), np.asarray(act_buf, dtype=np.int64)
-
-
-def _rebalance_bc_dataset(obs_np: np.ndarray, act_np: np.ndarray, seed: int) -> Tuple[np.ndarray, np.ndarray]:
-    """Limit inspect dominance and upweight decision samples in BC dataset."""
-    decision_mask = (act_np == ACTION_APPROVE) | (act_np == ACTION_DENY)
-    inspect_mask = ~decision_mask
-
-    decision_idx = np.flatnonzero(decision_mask)
-    inspect_idx = np.flatnonzero(inspect_mask)
-    if decision_idx.size == 0 or inspect_idx.size == 0:
-        return obs_np, act_np
-
-    # Keep inspect samples at most half of decision samples.
-    max_inspects = min(inspect_idx.size, max(1, decision_idx.size // 2))
-    rng = np.random.default_rng(seed)
-    keep_inspect = rng.choice(inspect_idx, size=max_inspects, replace=False)
-    keep_idx = np.concatenate([decision_idx, keep_inspect])
-    rng.shuffle(keep_idx)
-
-    return obs_np[keep_idx], act_np[keep_idx]
-
-
-def _run_bc_pretrain(
-    model: PPO,
-    env_kwargs: Dict[str, object],
-    episodes: int,
-    epochs: int,
-    batch_size: int,
-    lr: float,
-    seed: int,
-) -> None:
-    """Behavior cloning warm-start on PPO policy network."""
-    obs_np, act_np = _collect_bc_dataset(env_kwargs=env_kwargs, episodes=episodes, seed=seed)
-    obs_np, act_np = _rebalance_bc_dataset(obs_np=obs_np, act_np=act_np, seed=seed + 7)
-
-    if obs_np.shape[0] == 0:
-        print("[bc] dataset is empty, skipping pretrain")
-        return
-
-    decision_count = int(((act_np == ACTION_APPROVE) | (act_np == ACTION_DENY)).sum())
-    inspect_count = int(act_np.shape[0] - decision_count)
-    print(f"[bc] dataset samples={act_np.shape[0]} decisions={decision_count} inspects={inspect_count}")
-
-    device = model.device
-    obs_t = th.as_tensor(obs_np, dtype=th.float32, device=device)
-    act_t = th.as_tensor(act_np, dtype=th.long, device=device)
-
-    optimizer = th.optim.Adam(model.policy.parameters(), lr=lr)
-    n = obs_t.shape[0]
-
-    model.policy.train()
-    for ep in range(max(1, epochs)):
-        idx = th.randperm(n, device=device)
-        total_loss = 0.0
-        batches = 0
-
-        for start in range(0, n, max(1, batch_size)):
-            bidx = idx[start : start + max(1, batch_size)]
-            b_obs = obs_t[bidx]
-            b_act = act_t[bidx]
-
-            dist = model.policy.get_distribution(b_obs)
-            log_prob = dist.log_prob(b_act)
-            is_decision = ((b_act == ACTION_APPROVE) | (b_act == ACTION_DENY)).float()
-            sample_weight = 1.0 + 2.0 * is_decision
-            loss = -(log_prob * sample_weight).mean()
-
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            th.nn.utils.clip_grad_norm_(model.policy.parameters(), max_norm=1.0)
-            optimizer.step()
-
-            total_loss += float(loss.detach().item())
-            batches += 1
-
-        avg_loss = total_loss / max(1, batches)
-        print(f"[bc] epoch={ep + 1}/{epochs} loss={avg_loss:.4f} samples={n}")
-
-
 def main() -> None:
-    """Create env/model, optional BC warm-start, then PPO training and eval."""
+    """Create env/model, train PPO, then run deterministic eval."""
     args = parse_args()
     args.save_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -317,21 +102,6 @@ def main() -> None:
         learning_rate=3e-4,
         ent_coef=args.ent_coef,
     )
-
-    if args.bc_pretrain_episodes > 0:
-        print(
-            f"[bc] pretrain start episodes={args.bc_pretrain_episodes} "
-            f"epochs={args.bc_epochs} batch_size={args.bc_batch_size} lr={args.bc_lr}"
-        )
-        _run_bc_pretrain(
-            model=model,
-            env_kwargs=env_kwargs,
-            episodes=args.bc_pretrain_episodes,
-            epochs=args.bc_epochs,
-            batch_size=args.bc_batch_size,
-            lr=args.bc_lr,
-            seed=args.seed + 50_000,
-        )
 
     callback = EpisodeStatsCallback(print_every=args.print_every, verbose=1)
     model.learn(total_timesteps=args.total_timesteps, callback=callback, progress_bar=args.progress_bar)

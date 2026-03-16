@@ -35,14 +35,6 @@ def _run_train(args: argparse.Namespace) -> int:
         str(args.print_every),
         "--ent-coef",
         str(args.ent_coef),
-        "--bc-pretrain-episodes",
-        str(args.bc_pretrain_episodes),
-        "--bc-epochs",
-        str(args.bc_epochs),
-        "--bc-batch-size",
-        str(args.bc_batch_size),
-        "--bc-lr",
-        str(args.bc_lr),
         "--day-len",
         str(args.day_len),
         "--time-budget",
@@ -174,10 +166,6 @@ def build_parser() -> argparse.ArgumentParser:
     train_parser.add_argument("--print-every", type=int, default=50)
     train_parser.add_argument("--progress-bar", action="store_true")
     train_parser.add_argument("--ent-coef", type=float, default=0.0)
-    train_parser.add_argument("--bc-pretrain-episodes", type=int, default=0)
-    train_parser.add_argument("--bc-epochs", type=int, default=5)
-    train_parser.add_argument("--bc-batch-size", type=int, default=512)
-    train_parser.add_argument("--bc-lr", type=float, default=1e-3)
     _add_train_env_args(train_parser)
     train_parser.set_defaults(func=_run_train)
 
