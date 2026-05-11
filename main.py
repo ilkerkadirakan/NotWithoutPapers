@@ -71,9 +71,19 @@ def _run_train(args: argparse.Namespace) -> int:
         str(args.p_overinspect),
         "--p-reinspect",
         str(args.p_reinspect),
+        "--p-approve-without-inspect",
+        str(args.p_approve_without_inspect),
         "--p-undecided",
         str(args.p_undecided),
     ]
+    if args.use_curriculum:
+        cmd.append("--use-curriculum")
+    cmd.extend(
+        [
+            "--stage-a-timesteps",
+            str(args.stage_a_timesteps),
+        ]
+    )
     if args.progress_bar:
         cmd.append("--progress-bar")
     result = subprocess.run(cmd, check=False)
@@ -149,6 +159,7 @@ def _add_train_env_args(train_parser: argparse.ArgumentParser) -> None:
     train_parser.add_argument("--c-inspect", type=float, default=-0.1)
     train_parser.add_argument("--p-overinspect", type=float, default=-2.0)
     train_parser.add_argument("--p-reinspect", type=float, default=-0.5)
+    train_parser.add_argument("--p-approve-without-inspect", type=float, default=-2.0)
     train_parser.add_argument("--p-undecided", type=float, default=0.0)
 
 
@@ -166,6 +177,8 @@ def build_parser() -> argparse.ArgumentParser:
     train_parser.add_argument("--print-every", type=int, default=50)
     train_parser.add_argument("--progress-bar", action="store_true")
     train_parser.add_argument("--ent-coef", type=float, default=0.0)
+    train_parser.add_argument("--use-curriculum", action="store_true")
+    train_parser.add_argument("--stage-a-timesteps", type=int, default=80_000)
     _add_train_env_args(train_parser)
     train_parser.set_defaults(func=_run_train)
 

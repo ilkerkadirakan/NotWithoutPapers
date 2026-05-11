@@ -43,7 +43,7 @@ def test_reinspect_near_cap_forces_decision_and_advances() -> None:
     assert not terminated
     assert not truncated
     assert info["idx"] == 1
-    assert info["time_left"] == 18
+    assert info["time_left"] == 19
     assert abs(reward - (env.p_reinspect + decision_reward)) < 1e-9
 
     assert env.stats["reinspect"] == 1

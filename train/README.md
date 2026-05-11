@@ -13,3 +13,8 @@ This folder contains PPO training logic.
 ```powershell
 python -m train.train_ppo --total-timesteps 200000
 ```
+
+Useful options:
+
+- `--use-curriculum --stage-a-timesteps 80000`
+- `--p-approve-without-inspect -2.0`

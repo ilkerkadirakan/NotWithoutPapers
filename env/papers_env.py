@@ -72,6 +72,7 @@ class PapersPleaseEnv(gym.Env):
         c_inspect: float = -0.1,
         p_overinspect: float = -2.0,
         p_reinspect: float = -0.5,
+        p_approve_without_inspect: float = -2.0,
         p_undecided: float = 0.0,
         debug: bool = False,
         seed: Optional[int] = None,
@@ -112,6 +113,8 @@ class PapersPleaseEnv(gym.Env):
             raise ValueError("p_overinspect must be <= 0.0")
         if float(p_reinspect) > 0.0:
             raise ValueError("p_reinspect must be <= 0.0")
+        if float(p_approve_without_inspect) > 0.0:
+            raise ValueError("p_approve_without_inspect must be <= 0.0")
         if float(p_undecided) > 0.0:
             raise ValueError("p_undecided must be <= 0.0")
 
@@ -151,6 +154,7 @@ class PapersPleaseEnv(gym.Env):
         self.c_inspect = float(c_inspect)
         self.p_overinspect = float(p_overinspect)
         self.p_reinspect = float(p_reinspect)
+        self.p_approve_without_inspect = float(p_approve_without_inspect)
         self.p_undecided = float(p_undecided)
 
         self.stats = {
@@ -164,6 +168,7 @@ class PapersPleaseEnv(gym.Env):
             "inspect_noise_miss": 0,
             "undecided": 0,
             "overinspect": 0,
+            "blind_approve": 0,
             "coverage_shortfall": 0,
             "coverage_hard_violations": 0,
             "decision_coverage": 0.0,
@@ -387,7 +392,6 @@ class PapersPleaseEnv(gym.Env):
             near_cap = self.current_inspects >= max(1, self.max_inspects_per_applicant - 1)
             if self.revealed[field] != -1 and near_cap:
                 self.stats["reinspect"] += 1
-                self.time_left -= 1
                 reward += self.p_reinspect
                 action = decision_from_reveals()
 
@@ -420,6 +424,9 @@ class PapersPleaseEnv(gym.Env):
 
             if action == ACTION_APPROVE:
                 self.stats["approves"] += 1
+                if self.current_inspects == 0:
+                    reward += self.p_approve_without_inspect
+                    self.stats["blind_approve"] += 1
             else:
                 self.stats["denies"] += 1
 

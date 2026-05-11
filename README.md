@@ -13,8 +13,9 @@ Each episode is one workday:
 - Daily rules are sampled (allowed countries, permit requirement).
 - Applicants are processed in a queue.
 - Document fields start hidden.
-- A mid-day rule update may occur once and change active constraints
-- Inspect actions can be noisy (missing or flipped reveal)`r`n- Time-out now penalizes unresolved applicants (undecided penalty)
+- A mid-day rule update may occur once and change active constraints.
+- Inspect actions can be noisy (missing or flipped reveal).
+- Time-out penalizes unresolved applicants (undecided penalty).
 - The agent can inspect fields (costs time + small penalty).
 - The agent decides `APPROVE` or `DENY`.
 
@@ -68,6 +69,11 @@ python -m pytest
 python main.py train --total-timesteps 200000 --n-envs 8 --eval-episodes 100
 ```
 
+Optional training knobs:
+
+- `--use-curriculum --stage-a-timesteps 80000`: easy warm-up then target distribution.
+- `--p-approve-without-inspect -2.0`: discourages blind `APPROVE` behavior.
+
 ## 5) Evaluate Saved Model
 
 ```bash
@@ -88,7 +94,8 @@ Action IDs (do not reorder existing IDs):
 - `7`: INSPECT_IS_WORKER
 - `8`: INSPECT_HAS_WORK_PASS
 - `9`: INSPECT_PURPOSE_MATCH
-- `10`: INSPECT_SEAL_VALID`r`n- `11`: INSPECT_BIOMETRIC_MATCH
+- `10`: INSPECT_SEAL_VALID
+- `11`: INSPECT_BIOMETRIC_MATCH
 
 Observation vector contains:
 

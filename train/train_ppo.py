@@ -28,6 +28,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--print-every", type=int, default=50)
     parser.add_argument("--progress-bar", action="store_true")
     parser.add_argument("--ent-coef", type=float, default=0.0)
+    parser.add_argument("--use-curriculum", action="store_true")
+    parser.add_argument(
+        "--stage-a-timesteps",
+        type=int,
+        default=80_000,
+        help="Timesteps for easy warm-up stage when --use-curriculum is set.",
+    )
 
     # Environment params
     parser.add_argument("--day-len", type=int, default=25)
@@ -50,6 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--c-inspect", type=float, default=-0.1)
     parser.add_argument("--p-overinspect", type=float, default=-2.0)
     parser.add_argument("--p-reinspect", type=float, default=-0.5)
+    parser.add_argument("--p-approve-without-inspect", type=float, default=-2.0)
     parser.add_argument("--p-undecided", type=float, default=0.0)
 
     return parser.parse_args()
@@ -74,9 +82,24 @@ def _build_env_kwargs(args: argparse.Namespace) -> Dict[str, object]:
         c_inspect=args.c_inspect,
         p_overinspect=args.p_overinspect,
         p_reinspect=args.p_reinspect,
+        p_approve_without_inspect=args.p_approve_without_inspect,
         p_undecided=args.p_undecided,
         seed=args.seed,
     )
+
+
+def _build_stage_a_env_kwargs(base_env_kwargs: Dict[str, object]) -> Dict[str, object]:
+    """
+    Build an easier/stable warm-up distribution for curriculum stage A.
+
+    Keeps observation/action contract unchanged while reducing non-stationarity.
+    """
+    stage = dict(base_env_kwargs)
+    stage["mid_day_update_prob"] = 0.0
+    stage["inspect_error_prob"] = 0.0
+    stage["inspect_miss_prob"] = 0.0
+    stage["max_inspects_per_applicant"] = min(2, int(stage["max_inspects_per_applicant"]))
+    return stage
 
 
 def main() -> None:
@@ -89,24 +112,61 @@ def main() -> None:
     th.manual_seed(args.seed)
 
     env_kwargs = _build_env_kwargs(args)
-    vec_env = make_vec_env(PapersPleaseEnv, n_envs=args.n_envs, seed=args.seed, env_kwargs=env_kwargs)
+    stage_a_timesteps = 0
+    if args.use_curriculum:
+        stage_a_timesteps = max(0, min(int(args.stage_a_timesteps), int(args.total_timesteps)))
+    stage_b_timesteps = int(args.total_timesteps) - stage_a_timesteps
 
-    model = PPO(
-        "MlpPolicy",
-        vec_env,
-        seed=args.seed,
-        verbose=1,
-        n_steps=256,
-        batch_size=256,
-        gamma=0.99,
-        learning_rate=3e-4,
-        ent_coef=args.ent_coef,
-    )
+    if args.use_curriculum and stage_a_timesteps > 0:
+        stage_a_env_kwargs = _build_stage_a_env_kwargs(env_kwargs)
+        vec_env = make_vec_env(PapersPleaseEnv, n_envs=args.n_envs, seed=args.seed, env_kwargs=stage_a_env_kwargs)
+        model = PPO(
+            "MlpPolicy",
+            vec_env,
+            seed=args.seed,
+            verbose=1,
+            n_steps=256,
+            batch_size=256,
+            gamma=0.99,
+            learning_rate=3e-4,
+            ent_coef=args.ent_coef,
+        )
 
-    callback = EpisodeStatsCallback(print_every=args.print_every, verbose=1)
-    model.learn(total_timesteps=args.total_timesteps, callback=callback, progress_bar=args.progress_bar)
+        print(f"\n[curriculum] stage_a timesteps={stage_a_timesteps} env=easy")
+        callback_a = EpisodeStatsCallback(print_every=args.print_every, verbose=1)
+        model.learn(total_timesteps=stage_a_timesteps, callback=callback_a, progress_bar=args.progress_bar)
+        vec_env.close()
+
+        if stage_b_timesteps > 0:
+            vec_env = make_vec_env(PapersPleaseEnv, n_envs=args.n_envs, seed=args.seed, env_kwargs=env_kwargs)
+            model.set_env(vec_env)
+            print(f"\n[curriculum] stage_b timesteps={stage_b_timesteps} env=target")
+            callback_b = EpisodeStatsCallback(print_every=args.print_every, verbose=1)
+            model.learn(
+                total_timesteps=stage_b_timesteps,
+                callback=callback_b,
+                progress_bar=args.progress_bar,
+                reset_num_timesteps=False,
+            )
+            vec_env.close()
+    else:
+        vec_env = make_vec_env(PapersPleaseEnv, n_envs=args.n_envs, seed=args.seed, env_kwargs=env_kwargs)
+        model = PPO(
+            "MlpPolicy",
+            vec_env,
+            seed=args.seed,
+            verbose=1,
+            n_steps=256,
+            batch_size=256,
+            gamma=0.99,
+            learning_rate=3e-4,
+            ent_coef=args.ent_coef,
+        )
+        callback = EpisodeStatsCallback(print_every=args.print_every, verbose=1)
+        model.learn(total_timesteps=args.total_timesteps, callback=callback, progress_bar=args.progress_bar)
+        vec_env.close()
+
     model.save(str(args.save_path))
-    vec_env.close()
 
     summary = evaluate_model(model=model, episodes=args.eval_episodes, seed=args.seed + 10_000, env_kwargs=env_kwargs)
     print("\n[eval] deterministic policy summary")
