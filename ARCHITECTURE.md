@@ -23,7 +23,8 @@ Core problem characteristics:
 - Applicants are processed sequentially
 - The agent has a limited inspection time budget
 - Optional mid-day rule update can change policy constraints once during an episode
-- Inspect actions can return noisy observations (missing/incorrect reveal)`r`n- Time-out applies unresolved-applicant penalty to avoid inspect-only loops
+- Inspect actions can return noisy observations (missing/incorrect reveal)
+- Time-out applies unresolved-applicant penalty to avoid inspect-only loops
 
 ### Observation Model
 
@@ -49,7 +50,8 @@ Action IDs (stable contract):
 - `7` INSPECT_IS_WORKER
 - `8` INSPECT_HAS_WORK_PASS
 - `9` INSPECT_PURPOSE_MATCH
-- `10` INSPECT_SEAL_VALID`r`n- `11` INSPECT_BIOMETRIC_MATCH
+- `10` INSPECT_SEAL_VALID
+- `11` INSPECT_BIOMETRIC_MATCH
 
 ### Reward Philosophy
 
@@ -78,11 +80,17 @@ Reward design balances:
 - `eval/`
 - `eval/evaluate.py`: deterministic evaluation loop
 - `eval/metrics.py`: metric aggregation (`accuracy`, FAR/FRR, inspection freq, reward)
+- `eval/trace_export.py`: replay trace export (`main.py trace`)
+
+- `ui/`
+- React + Vite + TypeScript replay player
+- reads `ui/public/traces/*.json` and `traces_manifest.json`
 
 ### Support
 
 - `tests/`: contract + determinism tests
 - `scripts/`: helper scripts (`.ps1`, Windows convenience)
+- `docker/`: Dockerfiles for trace export + UI demo runtime
 - `artifacts/`: trained model files
 - `main.py`: platform-independent CLI entrypoint
 - `README.md`: GitHub-facing English docs
@@ -98,6 +106,7 @@ Recommended (platform-independent):
 python main.py smoke --skip-pytest
 python main.py train --total-timesteps 200000
 python main.py eval --model-path artifacts/ppo_papers_please.zip
+python main.py trace --model-path artifacts/sweep_s42_200k_cont.zip
 ```
 
 Windows convenience wrappers (optional):

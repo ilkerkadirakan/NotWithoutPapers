@@ -32,6 +32,8 @@ train/    # PPO training entrypoint + callback
 eval/     # Evaluation loop + metrics aggregation
 tests/    # Contract and determinism tests
 scripts/  # Helper scripts (PowerShell, optional)
+ui/       # Animated replay UI (React + Vite + TypeScript)
+docker/   # Docker build files
 main.py   # Cross-platform CLI entrypoint
 ```
 
@@ -80,6 +82,38 @@ Optional training knobs:
 python main.py eval --model-path artifacts/ppo_papers_please.zip --episodes 100
 ```
 
+## 6) Export Replay Trace
+
+```bash
+python main.py trace --model-path artifacts/sweep_s42_200k_cont.zip --episodes 1 --seed 10042 --output-dir ui/public/traces --trace-prefix sample
+```
+
+This command writes:
+
+- `ui/public/traces/<trace-file>.json`
+- `ui/public/traces/traces_manifest.json`
+
+## 7) Run Animated Replay UI (Local)
+
+```bash
+cd ui
+cmd /c npm install
+cmd /c npm run dev
+```
+
+Open: `http://localhost:4173`
+
+## 8) Run Demo via Docker
+
+```bash
+docker compose up --build
+```
+
+Behavior:
+
+1. `trace-export` service refreshes replay traces (or keeps existing sample if model is missing).
+2. `ui` service starts Vite dev server at `http://localhost:4173`.
+
 ## Environment Contract (Important)
 
 Action IDs (do not reorder existing IDs):
@@ -124,6 +158,7 @@ The project tracks:
 - `python main.py smoke`
 - `python main.py train`
 - `python main.py eval`
+- `python main.py trace`
 
 PowerShell scripts in `scripts/` are convenience wrappers for Windows, not required.
 

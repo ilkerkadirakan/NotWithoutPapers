@@ -26,6 +26,12 @@ artifacts/
 # IDE/editor
 .idea/
 .vscode/
+ui/node_modules/
+ui/dist/
+ui/.npm-cache/
+ui/*.tsbuildinfo
+ui/vite.config.js
+ui/vite.config.d.ts
 
 # OS files
 .DS_Store

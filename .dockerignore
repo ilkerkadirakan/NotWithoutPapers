@@ -1,0 +1,16 @@
+.git
+.gitignore
+.idea
+.venv
+__pycache__
+.pytest_cache
+pytest-cache-files-*/
+htmlcov
+artifacts
+node_modules
+ui/node_modules
+ui/dist
+dist
+build
+*.pyc
+*.pyo

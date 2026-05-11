@@ -6,6 +6,7 @@ Examples:
 - python main.py smoke --skip-pytest
 - python main.py train --total-timesteps 200000
 - python main.py eval --model-path artifacts/ppo_papers_please.zip
+- python main.py trace --model-path artifacts/sweep_s42_200k_cont.zip
 """
 
 import argparse
@@ -120,6 +121,52 @@ def _run_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def _run_trace(args: argparse.Namespace) -> int:
+    """Export deterministic rollout traces for replay UI."""
+    from stable_baselines3 import PPO
+
+    from eval.trace_export import export_replay_traces, write_traces_manifest
+
+    output_dir = args.output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+    env_kwargs = _build_env_kwargs_from_args(args)
+    model_path = args.model_path
+
+    if model_path.suffix == ".zip":
+        load_path = str(model_path.with_suffix("")) if model_path.exists() else str(model_path)
+        model_exists = model_path.exists() or model_path.with_suffix("").exists()
+    else:
+        load_path = str(model_path)
+        model_exists = model_path.exists() or model_path.with_suffix(".zip").exists()
+
+    if not model_exists:
+        if args.allow_missing_model:
+            manifest = write_traces_manifest(output_dir=output_dir)
+            print("[trace] model not found, skipped trace export.")
+            print(f"[trace] output_dir          : {output_dir}")
+            print(f"[trace] manifest entries    : {len(manifest.get('traces', []))}")
+            return 0
+        print(f"[trace] model not found: {model_path}")
+        return 1
+
+    model = PPO.load(load_path)
+    manifest = export_replay_traces(
+        model=model,
+        episodes=args.episodes,
+        seed=args.seed,
+        output_dir=output_dir,
+        model_path=str(model_path),
+        trace_prefix=args.trace_prefix,
+        env_kwargs=env_kwargs,
+    )
+    print("[trace] replay traces exported")
+    print(f"model_path            : {model_path}")
+    print(f"episodes              : {args.episodes}")
+    print(f"output_dir            : {output_dir}")
+    print(f"manifest entries      : {len(manifest.get('traces', []))}")
+    return 0
+
+
 def _run_smoke(args: argparse.Namespace) -> int:
     """Run env smoke test and optionally run pytest."""
     from scripts.smoke_test import main as smoke_main
@@ -137,6 +184,32 @@ def _run_smoke(args: argparse.Namespace) -> int:
 
     result = subprocess.run([sys.executable, "-m", "pytest"], check=False)
     return int(result.returncode)
+
+
+def _build_env_kwargs_from_args(args: argparse.Namespace) -> dict[str, object]:
+    """Build environment kwargs from shared CLI parameters."""
+    return {
+        "day_len": args.day_len,
+        "time_budget": args.time_budget,
+        "fraud_rate_range": (args.fraud_rate_min, args.fraud_rate_max),
+        "mid_day_update_prob": args.mid_day_update_prob,
+        "inspect_error_prob": args.inspect_error_prob,
+        "inspect_miss_prob": args.inspect_miss_prob,
+        "max_inspects_per_applicant": args.max_inspects_per_applicant,
+        "decision_coverage_target": args.decision_coverage_target,
+        "coverage_shortfall_penalty": args.coverage_shortfall_penalty,
+        "coverage_hard_threshold": args.coverage_hard_threshold,
+        "coverage_hard_penalty": args.coverage_hard_penalty,
+        "r_correct": args.r_correct,
+        "p_false_accept": args.p_false_accept,
+        "p_false_reject": args.p_false_reject,
+        "c_inspect": args.c_inspect,
+        "p_overinspect": args.p_overinspect,
+        "p_reinspect": args.p_reinspect,
+        "p_approve_without_inspect": args.p_approve_without_inspect,
+        "p_undecided": args.p_undecided,
+        "seed": args.seed,
+    }
 
 
 def _add_train_env_args(train_parser: argparse.ArgumentParser) -> None:
@@ -187,6 +260,16 @@ def build_parser() -> argparse.ArgumentParser:
     eval_parser.add_argument("--episodes", type=int, default=100)
     eval_parser.add_argument("--seed", type=int, default=10_042)
     eval_parser.set_defaults(func=_run_eval)
+
+    trace_parser = subparsers.add_parser("trace", help="Export deterministic replay traces for UI.")
+    trace_parser.add_argument("--model-path", type=Path, default=Path("artifacts/sweep_s42_200k_cont.zip"))
+    trace_parser.add_argument("--episodes", type=int, default=1)
+    trace_parser.add_argument("--seed", type=int, default=10_042)
+    trace_parser.add_argument("--output-dir", type=Path, default=Path("ui/public/traces"))
+    trace_parser.add_argument("--trace-prefix", type=str, default="trace")
+    trace_parser.add_argument("--allow-missing-model", action="store_true")
+    _add_train_env_args(trace_parser)
+    trace_parser.set_defaults(func=_run_trace)
 
     smoke_parser = subparsers.add_parser("smoke", help="Run smoke checks.")
     smoke_parser.add_argument("--skip-pytest", action="store_true", help="Run only environment smoke test.")

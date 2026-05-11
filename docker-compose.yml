@@ -1,0 +1,39 @@
+services:
+  trace-export:
+    build:
+      context: .
+      dockerfile: docker/trace-export.Dockerfile
+    working_dir: /app
+    command:
+      [
+        "python",
+        "main.py",
+        "trace",
+        "--model-path",
+        "artifacts/sweep_s42_200k_cont.zip",
+        "--episodes",
+        "1",
+        "--seed",
+        "10042",
+        "--output-dir",
+        "ui/public/traces",
+        "--trace-prefix",
+        "sample",
+        "--allow-missing-model"
+      ]
+    volumes:
+      - ./ui/public/traces:/app/ui/public/traces
+      - ./artifacts:/app/artifacts:ro
+    restart: "no"
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "4173:4173"
+    volumes:
+      - ./ui/public/traces:/app/public/traces:ro
+    depends_on:
+      trace-export:
+        condition: service_completed_successfully

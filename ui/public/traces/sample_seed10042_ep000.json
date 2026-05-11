@@ -1,0 +1,6954 @@
+{
+  "meta": {
+    "trace_version": "1.0",
+    "model_path": "artifacts\\sweep_s42_200k_cont.zip",
+    "seed": 10042,
+    "generated_at": "2026-05-11T20:39:30.634413+00:00",
+    "env_config": {
+      "day_len": 25,
+      "time_budget": 60,
+      "fraud_rate_range": [
+        0.15,
+        0.35
+      ],
+      "mid_day_update_prob": 0.6,
+      "inspect_error_prob": 0.0,
+      "inspect_miss_prob": 0.0,
+      "max_inspects_per_applicant": 3,
+      "decision_coverage_target": 0.9,
+      "coverage_shortfall_penalty": -20.0,
+      "coverage_hard_threshold": 0.9,
+      "coverage_hard_penalty": -120.0,
+      "r_correct": 6.0,
+      "p_false_accept": -15.0,
+      "p_false_reject": -15.0,
+      "c_inspect": -0.1,
+      "p_overinspect": -2.0,
+      "p_reinspect": -0.5,
+      "p_approve_without_inspect": -2.0,
+      "p_undecided": 0.0,
+      "seed": 10042
+    }
+  },
+  "episode": {
+    "episode_id": 0,
+    "terminated": true,
+    "truncated": false,
+    "total_reward": -16.50000000000004,
+    "stats": {
+      "approves": 21,
+      "denies": 4,
+      "false_accept": 7,
+      "false_reject": 0,
+      "inspects": 50,
+      "reinspect": 29,
+      "inspect_noise_error": 0,
+      "inspect_noise_miss": 0,
+      "undecided": 0,
+      "overinspect": 0,
+      "blind_approve": 0,
+      "coverage_shortfall": 0,
+      "coverage_hard_violations": 0,
+      "decision_coverage": 1.0
+    }
+  },
+  "steps": [
+    {
+      "step_idx": 0,
+      "time_left_before": 60,
+      "time_left_after": 59,
+      "applicant_idx_before": 0,
+      "applicant_idx_after": 0,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 1,
+      "time_left_before": 59,
+      "time_left_after": 58,
+      "applicant_idx_before": 0,
+      "applicant_idx_after": 0,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 2,
+      "time_left_before": 58,
+      "time_left_after": 58,
+      "applicant_idx_before": 0,
+      "applicant_idx_after": 1,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 3,
+      "time_left_before": 58,
+      "time_left_after": 57,
+      "applicant_idx_before": 1,
+      "applicant_idx_after": 1,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 4,
+      "time_left_before": 57,
+      "time_left_after": 56,
+      "applicant_idx_before": 1,
+      "applicant_idx_after": 1,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.6,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 5,
+      "time_left_before": 56,
+      "time_left_after": 56,
+      "applicant_idx_before": 1,
+      "applicant_idx_after": 2,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 6,
+      "time_left_before": 56,
+      "time_left_after": 55,
+      "applicant_idx_before": 2,
+      "applicant_idx_after": 2,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 7,
+      "time_left_before": 55,
+      "time_left_after": 54,
+      "applicant_idx_before": 2,
+      "applicant_idx_after": 2,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 8,
+      "time_left_before": 54,
+      "time_left_after": 54,
+      "applicant_idx_before": 2,
+      "applicant_idx_after": 3,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 9,
+      "time_left_before": 54,
+      "time_left_after": 53,
+      "applicant_idx_before": 3,
+      "applicant_idx_after": 3,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 10,
+      "time_left_before": 53,
+      "time_left_after": 52,
+      "applicant_idx_before": 3,
+      "applicant_idx_after": 3,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 11,
+      "time_left_before": 52,
+      "time_left_after": 52,
+      "applicant_idx_before": 3,
+      "applicant_idx_after": 4,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 12,
+      "time_left_before": 52,
+      "time_left_after": 51,
+      "applicant_idx_before": 4,
+      "applicant_idx_after": 4,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 13,
+      "time_left_before": 51,
+      "time_left_after": 50,
+      "applicant_idx_before": 4,
+      "applicant_idx_after": 4,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 14,
+      "time_left_before": 50,
+      "time_left_after": 50,
+      "applicant_idx_before": 4,
+      "applicant_idx_after": 5,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 15,
+      "time_left_before": 50,
+      "time_left_after": 49,
+      "applicant_idx_before": 5,
+      "applicant_idx_after": 5,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 16,
+      "time_left_before": 49,
+      "time_left_after": 48,
+      "applicant_idx_before": 5,
+      "applicant_idx_after": 5,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 17,
+      "time_left_before": 48,
+      "time_left_after": 48,
+      "applicant_idx_before": 5,
+      "applicant_idx_after": 6,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 18,
+      "time_left_before": 48,
+      "time_left_after": 47,
+      "applicant_idx_before": 6,
+      "applicant_idx_after": 6,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 19,
+      "time_left_before": 47,
+      "time_left_after": 46,
+      "applicant_idx_before": 6,
+      "applicant_idx_after": 6,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 20,
+      "time_left_before": 46,
+      "time_left_after": 46,
+      "applicant_idx_before": 6,
+      "applicant_idx_after": 7,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 21,
+      "time_left_before": 46,
+      "time_left_after": 45,
+      "applicant_idx_before": 7,
+      "applicant_idx_after": 7,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 22,
+      "time_left_before": 45,
+      "time_left_after": 44,
+      "applicant_idx_before": 7,
+      "applicant_idx_after": 7,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 23,
+      "time_left_before": 44,
+      "time_left_after": 44,
+      "applicant_idx_before": 7,
+      "applicant_idx_after": 8,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 24,
+      "time_left_before": 44,
+      "time_left_after": 43,
+      "applicant_idx_before": 8,
+      "applicant_idx_after": 8,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 25,
+      "time_left_before": 43,
+      "time_left_after": 42,
+      "applicant_idx_before": 8,
+      "applicant_idx_after": 8,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 26,
+      "time_left_before": 42,
+      "time_left_after": 42,
+      "applicant_idx_before": 8,
+      "applicant_idx_after": 9,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 27,
+      "time_left_before": 42,
+      "time_left_after": 41,
+      "applicant_idx_before": 9,
+      "applicant_idx_after": 9,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 28,
+      "time_left_before": 41,
+      "time_left_after": 40,
+      "applicant_idx_before": 9,
+      "applicant_idx_after": 9,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 29,
+      "time_left_before": 40,
+      "time_left_after": 40,
+      "applicant_idx_before": 9,
+      "applicant_idx_after": 10,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 30,
+      "time_left_before": 40,
+      "time_left_after": 39,
+      "applicant_idx_before": 10,
+      "applicant_idx_after": 10,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 31,
+      "time_left_before": 39,
+      "time_left_after": 38,
+      "applicant_idx_before": 10,
+      "applicant_idx_after": 10,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      }
+    },
+    {
+      "step_idx": 32,
+      "time_left_before": 38,
+      "time_left_after": 38,
+      "applicant_idx_before": 10,
+      "applicant_idx_after": 11,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 6,
+        "country_name": "UNITEDFED"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 33,
+      "time_left_before": 38,
+      "time_left_after": 37,
+      "applicant_idx_before": 11,
+      "applicant_idx_after": 11,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 34,
+      "time_left_before": 37,
+      "time_left_after": 36,
+      "applicant_idx_before": 11,
+      "applicant_idx_after": 11,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.6,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      }
+    },
+    {
+      "step_idx": 35,
+      "time_left_before": 36,
+      "time_left_after": 36,
+      "applicant_idx_before": 11,
+      "applicant_idx_after": 12,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 5,
+        "country_name": "REPUBLIA"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 36,
+      "time_left_before": 36,
+      "time_left_after": 35,
+      "applicant_idx_before": 12,
+      "applicant_idx_after": 12,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 37,
+      "time_left_before": 35,
+      "time_left_after": 34,
+      "applicant_idx_before": 12,
+      "applicant_idx_after": 12,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 38,
+      "time_left_before": 34,
+      "time_left_after": 34,
+      "applicant_idx_before": 12,
+      "applicant_idx_after": 13,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 39,
+      "time_left_before": 34,
+      "time_left_after": 33,
+      "applicant_idx_before": 13,
+      "applicant_idx_after": 13,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 40,
+      "time_left_before": 33,
+      "time_left_after": 32,
+      "applicant_idx_before": 13,
+      "applicant_idx_after": 13,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 41,
+      "time_left_before": 32,
+      "time_left_after": 32,
+      "applicant_idx_before": 13,
+      "applicant_idx_after": 14,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 42,
+      "time_left_before": 32,
+      "time_left_after": 31,
+      "applicant_idx_before": 14,
+      "applicant_idx_after": 14,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 43,
+      "time_left_before": 31,
+      "time_left_after": 30,
+      "applicant_idx_before": 14,
+      "applicant_idx_after": 14,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 44,
+      "time_left_before": 30,
+      "time_left_after": 30,
+      "applicant_idx_before": 14,
+      "applicant_idx_after": 15,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 45,
+      "time_left_before": 30,
+      "time_left_after": 29,
+      "applicant_idx_before": 15,
+      "applicant_idx_after": 15,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 46,
+      "time_left_before": 29,
+      "time_left_after": 28,
+      "applicant_idx_before": 15,
+      "applicant_idx_after": 15,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 47,
+      "time_left_before": 28,
+      "time_left_after": 28,
+      "applicant_idx_before": 15,
+      "applicant_idx_after": 16,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 48,
+      "time_left_before": 28,
+      "time_left_after": 27,
+      "applicant_idx_before": 16,
+      "applicant_idx_after": 16,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 49,
+      "time_left_before": 27,
+      "time_left_after": 26,
+      "applicant_idx_before": 16,
+      "applicant_idx_after": 16,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.6,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 50,
+      "time_left_before": 26,
+      "time_left_after": 26,
+      "applicant_idx_before": 16,
+      "applicant_idx_after": 17,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 51,
+      "time_left_before": 26,
+      "time_left_after": 25,
+      "applicant_idx_before": 17,
+      "applicant_idx_after": 17,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 52,
+      "time_left_before": 25,
+      "time_left_after": 24,
+      "applicant_idx_before": 17,
+      "applicant_idx_after": 17,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 53,
+      "time_left_before": 24,
+      "time_left_after": 24,
+      "applicant_idx_before": 17,
+      "applicant_idx_after": 18,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 54,
+      "time_left_before": 24,
+      "time_left_after": 23,
+      "applicant_idx_before": 18,
+      "applicant_idx_after": 18,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 55,
+      "time_left_before": 23,
+      "time_left_after": 22,
+      "applicant_idx_before": 18,
+      "applicant_idx_after": 18,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 56,
+      "time_left_before": 22,
+      "time_left_after": 22,
+      "applicant_idx_before": 18,
+      "applicant_idx_after": 19,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 57,
+      "time_left_before": 22,
+      "time_left_after": 21,
+      "applicant_idx_before": 19,
+      "applicant_idx_after": 19,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 58,
+      "time_left_before": 21,
+      "time_left_after": 20,
+      "applicant_idx_before": 19,
+      "applicant_idx_after": 19,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      }
+    },
+    {
+      "step_idx": 59,
+      "time_left_before": 20,
+      "time_left_after": 20,
+      "applicant_idx_before": 19,
+      "applicant_idx_after": 20,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 4,
+        "country_name": "OBRISTAN"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 60,
+      "time_left_before": 20,
+      "time_left_after": 19,
+      "applicant_idx_before": 20,
+      "applicant_idx_after": 20,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 61,
+      "time_left_before": 19,
+      "time_left_after": 18,
+      "applicant_idx_before": 20,
+      "applicant_idx_after": 20,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.6,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 62,
+      "time_left_before": 18,
+      "time_left_after": 18,
+      "applicant_idx_before": 20,
+      "applicant_idx_after": 21,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 0,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 63,
+      "time_left_before": 18,
+      "time_left_after": 17,
+      "applicant_idx_before": 21,
+      "applicant_idx_after": 21,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 64,
+      "time_left_before": 17,
+      "time_left_after": 16,
+      "applicant_idx_before": 21,
+      "applicant_idx_after": 21,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 65,
+      "time_left_before": 16,
+      "time_left_after": 16,
+      "applicant_idx_before": 21,
+      "applicant_idx_after": 22,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 66,
+      "time_left_before": 16,
+      "time_left_after": 15,
+      "applicant_idx_before": 22,
+      "applicant_idx_after": 22,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 67,
+      "time_left_before": 15,
+      "time_left_after": 14,
+      "applicant_idx_before": 22,
+      "applicant_idx_after": 22,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      }
+    },
+    {
+      "step_idx": 68,
+      "time_left_before": 14,
+      "time_left_after": 14,
+      "applicant_idx_before": 22,
+      "applicant_idx_after": 23,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 1,
+        "country_name": "ANTEGRIA"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 69,
+      "time_left_before": 14,
+      "time_left_after": 13,
+      "applicant_idx_before": 23,
+      "applicant_idx_after": 23,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 70,
+      "time_left_before": 13,
+      "time_left_after": 12,
+      "applicant_idx_before": 23,
+      "applicant_idx_after": 23,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      }
+    },
+    {
+      "step_idx": 71,
+      "time_left_before": 12,
+      "time_left_after": 12,
+      "applicant_idx_before": 23,
+      "applicant_idx_after": 24,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": 5.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "correct",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 2,
+        "country_name": "IMPOR"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 72,
+      "time_left_before": 12,
+      "time_left_after": 11,
+      "applicant_idx_before": 24,
+      "applicant_idx_after": 24,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 73,
+      "time_left_before": 11,
+      "time_left_after": 10,
+      "applicant_idx_before": 24,
+      "applicant_idx_after": 24,
+      "action_id": 9,
+      "action_name": "INSPECT_PURPOSE_MATCH",
+      "action_type": "inspect",
+      "reward": -0.1,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "none",
+      "done": false,
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      }
+    },
+    {
+      "step_idx": 74,
+      "time_left_before": 10,
+      "time_left_after": 10,
+      "applicant_idx_before": 24,
+      "applicant_idx_after": 25,
+      "action_id": 4,
+      "action_name": "INSPECT_EXPIRY_VALID",
+      "action_type": "inspect",
+      "reward": -15.5,
+      "revealed_before": {
+        "name_match": -1,
+        "expiry_valid": 1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": 1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "revealed_after": {
+        "name_match": -1,
+        "expiry_valid": -1,
+        "country_allowed": -1,
+        "has_permit": -1,
+        "has_id_card": -1,
+        "is_worker": -1,
+        "has_work_pass": -1,
+        "purpose_match": -1,
+        "seal_valid": -1,
+        "biometric_match": -1
+      },
+      "rules_before": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rules_after": {
+        "allowed_countries_mask": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allowed_countries_by_name": {
+          "ARSTOTZKA": 0,
+          "ANTEGRIA": 1,
+          "IMPOR": 1,
+          "KOLECHIA": 1,
+          "OBRISTAN": 1,
+          "REPUBLIA": 1,
+          "UNITEDFED": 1
+        },
+        "permit_required": 0,
+        "id_card_required_for_citizens": 0,
+        "work_pass_required": 0
+      },
+      "rule_update_event": null,
+      "decision_result": "false_accept",
+      "done": "terminated",
+      "applicant_before": {
+        "country_idx": 3,
+        "country_name": "KOLECHIA"
+      },
+      "applicant_after": null
+    }
+  ]
+}
