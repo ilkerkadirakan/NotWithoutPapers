@@ -1,13 +1,13 @@
 {
   "trace_version": "1.0",
-  "generated_at": "2026-05-11T20:39:30.650732+00:00",
+  "generated_at": "2026-05-12T07:23:23.319154+00:00",
   "traces": [
     {
       "id": "sample_seed10042_ep000",
       "file": "sample_seed10042_ep000.json",
       "seed": 10042,
       "episode_id": 0,
-      "model_path": "artifacts\\sweep_s42_200k_cont.zip",
+      "model_path": "artifacts/sweep_s42_200k_cont.zip",
       "total_reward": -16.50000000000004,
       "terminated": true,
       "truncated": false

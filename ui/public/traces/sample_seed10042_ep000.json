@@ -1,9 +1,9 @@
 {
   "meta": {
     "trace_version": "1.0",
-    "model_path": "artifacts\\sweep_s42_200k_cont.zip",
+    "model_path": "artifacts/sweep_s42_200k_cont.zip",
     "seed": 10042,
-    "generated_at": "2026-05-11T20:39:30.634413+00:00",
+    "generated_at": "2026-05-12T07:23:23.291147+00:00",
     "env_config": {
       "day_len": 25,
       "time_budget": 60,
