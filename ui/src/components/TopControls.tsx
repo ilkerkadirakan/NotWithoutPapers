@@ -11,6 +11,8 @@ interface TopControlsProps {
   traceSeed: number | null;
   loading: boolean;
   error: string | null;
+  viewMode: "story" | "technical";
+  onChangeViewMode: (mode: "story" | "technical") => void;
   onSelectTrace: (file: string) => void;
   onTogglePlay: () => void;
   onStepBackward: () => void;
@@ -31,6 +33,8 @@ export function TopControls(props: TopControlsProps) {
     traceSeed,
     loading,
     error,
+    viewMode,
+    onChangeViewMode,
     onSelectTrace,
     onTogglePlay,
     onStepBackward,
@@ -70,6 +74,18 @@ export function TopControls(props: TopControlsProps) {
         </label>
 
         <div className="button-group">
+          <button
+            className={viewMode === "story" ? "active-mode" : ""}
+            onClick={() => onChangeViewMode("story")}
+          >
+            Story
+          </button>
+          <button
+            className={viewMode === "technical" ? "active-mode" : ""}
+            onClick={() => onChangeViewMode("technical")}
+          >
+            Technical
+          </button>
           <button onClick={onTogglePlay} disabled={!canInteract}>
             {isPlaying ? "Pause" : "Play"}
           </button>
